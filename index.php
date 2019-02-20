@@ -6,8 +6,9 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="description" content="To to je můj web">
     <meta name="keywords" content="programátor,html">
-    <link href="styly.css" rel="stylesheet" type="text/css">
-    <title>EVL Router filter</title>
+    <link href="styles/index.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="images/logo.ico">
+    <title>EVL Router Filter</title>
 </head>
 
 <body>
@@ -45,7 +46,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 ?>
 <header>
     <div class="logo">
-        <a href="index.php"><img src="logo.png" alt="logo"></a>
+        <a href="index.php"><img src="images/logo.png" alt="logo"></a>
     </div>
     <div class="import">
 <?php
