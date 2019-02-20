@@ -69,6 +69,7 @@ if(isset($_POST["import_to_db"])){
 </header>
 <div class="filtry">
 <?php
+
 if ($imported_select->num_rows > 0 and isset($_POST["imported"])) {
     echo "<br><br>";
     while($row = $imported_select->fetch_assoc()){
