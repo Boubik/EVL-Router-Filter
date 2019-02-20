@@ -45,7 +45,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 ?>
 <header>
     <div class="logo">
-        <a href="index.php"><img src="CH.png" alt="logo"></a>
+        <a href="index.php"><img src="logo.png" alt="logo"></a>
     </div>
     <div class="import">
 <?php
