@@ -1,6 +1,6 @@
 EVL-Router-filter
 
-    Is for filtring evl logs from routers.
+    Is for filtring and storing evl logs from routers.
 
 Testing
 
