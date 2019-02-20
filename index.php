@@ -2,10 +2,7 @@
 <html>
 
 <head>
-    <meta name="Jan Chlouba" content="HTML code: Jan chlouba; e-mail: xxxx@xxxx.xxx">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="description" content="To to je můj web">
-    <meta name="keywords" content="programátor,html">
     <link href="styles/index.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="images/logo.ico">
     <title>EVL Router Filter</title>
