@@ -267,7 +267,7 @@ echo "<br>\n";
 
 
 
-echo    '<br><label>Order by?</label><br>';
+echo    '<br><label>Order by</label><br>';
 //checkbox sort by date...
 $i = 0;
 while($i != checkbox){
