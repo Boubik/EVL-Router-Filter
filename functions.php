@@ -50,6 +50,7 @@ function insert_time($conn, $filename){
 function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_info){
 
     $configs = include('config.php');
+    ini_set('max_execution_time', 0);
 
     $info = array("router" => "NULL", "datetime" => "NULL", "FW" => "NULL", "prio" => "NULL", "id" => "NULL", "rev" => "NULL", "event" => "NULL", "rule" => "NULL", "time_year" => "NULL", "time_month" => "NULL");
     $key = array("router", "datetime", "FW", "prio", "id", "rev", "event", "rule", "time_year", "time_month");

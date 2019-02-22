@@ -14,7 +14,6 @@ Changelog
 
 [changelog.md](changelog.md)
 
-
 Testing (I5-5257U 2,7Ghz  8GB ram)
 
     v0.2
