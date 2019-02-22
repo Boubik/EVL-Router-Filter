@@ -12,7 +12,7 @@ Setup
 
 Changelog
 
-    is in changelog.md
+    is in [changelog.md](https://github.com/Boubik/EVL-Router-Filter/blob/master/changelog.md)
 
 Testing (I5-5257U 2,7Ghz  8GB ram)
 
