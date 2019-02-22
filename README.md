@@ -13,6 +13,7 @@ Setup
 Changelog
 
     is in [changelog.md](changelog.md)
+[changelog.md](changelog.md)
 
 Testing (I5-5257U 2,7Ghz  8GB ram)
 
