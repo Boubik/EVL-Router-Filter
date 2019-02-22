@@ -11,7 +11,7 @@ Is for filtering and storing evl logs from routers.
 2) look in config.php
 3) open index.php
 4) put your .evl files in folder "files"
-5) click on "Import to DB" (It may take while)
+5) click on "Import to DB" (it may take a while)
 ```
 
 ## **Changelog**

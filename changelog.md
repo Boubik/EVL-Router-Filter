@@ -3,8 +3,8 @@
 ## v0.2
 
 ```
-- rewriteup hole backend
-- better reability
+- rewrote whole backend
+- better readability
 ```
 
 ## v0.1
@@ -12,8 +12,8 @@
 - initial version
 
 - filtering
-- import from .evl to db
+- import from .evl to database
 - check if alredy imported
-- automaticli create db
+- automatically create database
 - delete file after import
 ```
