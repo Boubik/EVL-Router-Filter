@@ -18,6 +18,7 @@ $servername = $configs["servername"];
 $username = $configs["username"];
 $password = $configs["password"];
 $dbname = $configs["dbname"];
+ini_set('max_execution_time', 0);
 $where = "";
 $wherenable = TRUE;
 $kde[] = "";
@@ -35,7 +36,7 @@ if ($conn->connect_error) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }else{
-        exec("PHP createdb.php");
+        create_db();
         header("Refresh:0");
     }
 }
@@ -57,9 +58,7 @@ echo '<form method="POST" action="">'."\n".'<input type="submit" name="import_to
 echo '<form method="POST" action="">'."\n".'<input type="submit" name="imported"  value="Imported in DB"> </form>';
 
 if(isset($_POST["import_to_db"])){
-   exec("PHP transform_to_readable.php");
-   exec("PHP to_database.php");
-   //exec("PHP run.php");
+   exec("PHP to_db.php");
 }
 
 ?>

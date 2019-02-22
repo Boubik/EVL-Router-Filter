@@ -5,6 +5,8 @@ return array(
     'password' => '',
     'dbname' => 'evl',
     'delete_evl' => TRUE,
-    'delete_txt' => TRUE
+    'sleep' => TRUE,
+    'sleep_after_insert' => 100000,
+    'debug_echo' => FALSE
 );
 ?>

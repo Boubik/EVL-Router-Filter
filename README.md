@@ -9,7 +9,12 @@ Setup
     3) put your .evl files in folder "files"
     4) click on "Import to DB" (It may take while)
 
-Testing
+Testing (I5-5257U 2,7Ghz  8GB ram)
 
-    test.evl (42 MB) --> test.txt (30,8 MB, 116 615 řádků) --> to db (26,1 MB) --> save ~49,8%
+    v0.2
+        test.evl (42 MB) --> to db (25,1 MB) --> save ~40,2%
+                                   (~2m 20s)
+
+    V0.1
+        test.evl (42 MB) --> test.txt (30,8 MB, 116 615 řádků) --> to db (26,1 MB) --> save ~37,8%
                                     (~22s)                       (~2m 45s)
