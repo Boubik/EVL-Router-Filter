@@ -10,6 +10,10 @@ Setup
     4) put your .evl files in folder "files"
     5) click on "Import to DB" (It may take while)
 
+Changelog
+
+    is in changelog.php
+
 Testing (I5-5257U 2,7Ghz  8GB ram)
 
     v0.2
