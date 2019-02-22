@@ -268,4 +268,75 @@ function create_db(){
 
 }
 
+function processFileChunk($conn, string $chunk, $router, $rok, $mesic, $id_info)
+{
+    // Rozseká na nový řádky podle pole času
+    $chunk = preg_replace(
+        '/\[\d{4}(?:-\d{2}){2} (?:\d{2}:){2}\d{2}]/',
+        "\n$0",
+        $chunk
+    );
+
+    // Odstraní bordel na koncích řádků
+    $chunk = preg_replace(
+        '/\x00[^\x5B]*/',
+        "\n",
+        $chunk
+    );
+
+    // Rozdělí řádky do pole (array)
+    $lines = explode("\n", $chunk);
+
+    foreach ($lines as $line) {
+        processLine($conn, $line, $router, $rok, $mesic, $id_info);
+    }
+}
+
+function processLine($conn, string $line, $router, $rok, $mesic, $id_info)
+{
+
+    //výsledek řádku
+    $parsedLine = [];
+
+    $parsedLine["router"] = $router;
+
+
+    $datetime = explode('[', $line, 1);
+    $datetime = preg_replace("/ /", "-", $datetime[0]);
+    $datetime = substr($datetime, 1, 19);
+    //$parsedLine["datetime"] = $datetime;
+
+    $FW = explode('FW: ', $line, 2);
+    $FW = explode(':', $FW[1], 2);
+    $FW = $FW[0];
+    //$parsedLine["FW"] = $FW[0];
+
+    //rozdělí řádek na itemy (item je ve formátu: klíč=hodnota)
+    $items = explode(' ', $line);
+
+    //pro každý item
+    foreach ($items as $item) {
+        //rozdělí item na pole ve formátu klíč, hodnota]
+        $keyAndValue = explode('=', $item);
+
+        //pokud má item 2 prvky (je ve formátu klíč=hodnota)
+        if (count($keyAndValue) == 2) {
+            //přidá klíč a hodnotu do pole výsledků
+            if($keyAndValue[0] == "connipproto" or $keyAndValue[0] == "connrecvif" or $keyAndValue[0] == "conndestif" or $keyAndValue[0] == "connsrcport" or $keyAndValue[0] == "conndestport" or $keyAndValue[0] == "connsrcip" or $keyAndValue[0] == "conndestip" or $keyAndValue[0] == "ipaddr"){
+                if($keyAndValue[0] == "ipaddr"){
+                    $parsedLine["srcip"] = $keyAndValue[1];
+                }else{
+                    $parsedLine[substr($keyAndValue[0], 4)] = $keyAndValue[1];
+                }
+            }else{
+                $parsedLine[$keyAndValue[0]] = $keyAndValue[1];
+            }
+        }
+    }
+
+    if (!empty($parsedLine)) {
+        to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_info);
+    }
+}
+
 ?>

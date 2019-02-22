@@ -5,9 +5,10 @@ EVL-Router-filter
 Setup
 
     1) Setup your server with php and mysql/marinadb.
-    2) open index.php
-    3) put your .evl files in folder "files"
-    4) click on "Import to DB" (It may take while)
+    2) look in config.php
+    3) open index.php
+    4) put your .evl files in folder "files"
+    5) click on "Import to DB" (It may take while)
 
 Testing (I5-5257U 2,7Ghz  8GB ram)
 
