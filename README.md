@@ -17,9 +17,9 @@ Is for filtering and storing evl logs from routers.
 ## **Testing** (I5-5257U 2,7Ghz  8GB ram)
 
 - v0.2
- - test.evl (42 MB) --> to db (25,1 MB) --> save ~40,2%
-                              (~2m 20s)
+    - test.evl (42 MB) --> to db (25,1 MB) --> save ~40,2%
+                                 (~2m 20s)
 
 - V0.1
- - test.evl (42 MB) --> test.txt (30,8 MB, 116 615 řádků) --> to db (26,1 MB) --> save ~37,8%
-                                       (~22s)                       (~2m 45s)
+    - test.evl (42 MB) --> test.txt (30,8 MB, 116 615 řádků) --> to db (26,1 MB) --> save ~37,8%
+                                          (~22s)                       (~2m 45s)
