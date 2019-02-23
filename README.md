@@ -12,7 +12,7 @@ Is for filtering and storing evl logs from routers.
 
 ## **Changelog**
 
-[changelog.md](changelog.md)
+- [changelog.md](changelog.md)
 
 ## **Testing** (I5-5257U 2,7Ghz  8GB ram)
 
