@@ -74,13 +74,13 @@ header {
 
 }
 
-.filtry{
+.filters{
     border-bottom: 1px solid #1a1a1a;
     font-family: Arial, Helvetica, sans-serif;
     font-size: .9em;
 }
 
-.tabulka{
+.table{
     display: inline-block;
     margin: auto;
     left: 0;
@@ -89,11 +89,11 @@ header {
     
 }
 
-.tabulka tr:nth-child(odd) {
+.table tr:nth-child(odd) {
     background-color: #003300;
 }
 
-.tabulka tr:nth-child(even){
+.table tr:nth-child(even){
     background-color: #1a1a1a;
 }
 
@@ -120,11 +120,11 @@ header {
     left: 2px;
 }
 
-.filtry input {
+.filters input {
     border-radius: 6px;
 }
 
-.filtry select {
+.filters select {
     border-radius: 6px;
     margin-left: 1.5px;
     margin-right: 1.5px;
