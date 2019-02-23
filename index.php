@@ -64,7 +64,7 @@ if(isset($_POST["import_to_db"])){
 ?>
 </div>
 </header>
-<div class="filtry">
+<div class="filters">
 <?php
 
 if ($imported_select->num_rows > 0 and isset($_POST["imported"])) {
@@ -409,7 +409,7 @@ $i ++;
 ?>
 </div>
 </div>
-<div class="tabulka">
+<div class="table">
 <?php
 
 /*$i = 0;

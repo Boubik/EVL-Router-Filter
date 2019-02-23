@@ -10,7 +10,7 @@ function imported($conn, $filename){
 
     $sql = "SELECT * FROM imported";
     $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
+    if ($result->num_rows> 0) {
         while($row = $result->fetch_assoc()){
             if($row["router"] == $router and $row["date"] == $date and $row["id"] == $id_soubor){
                 return TRUE;
@@ -132,18 +132,18 @@ function tabulka($where, $order, $limit, $checkbox){
     $select_table = $conn->query($select_table);
     if ($select_table->num_rows > 0) {
         // output data of each row
-        echo "<div id='data'>";
+        echo "<div>";
         echo "<table>";
         echo "\n";
-        echo "<tr><th class='gray'>Date</th><th class='gray'>Category/ID</th><th class='gray'>Rule</th><th class='gray'>Proto</th><th class='gray'>Src/Dst IF</th><th class='gray'>Src/Dst IP</th><th class='gray'>Src/dst Port</th><th class='gray'>Event/Action</th></tr>";
+        echo "<tr><th>Date</th><th>Category/ID</th><th>Rule</th><th>Proto</th><th>Src/Dst IF</th><th>Src/Dst IP</th><th>Src/dst Port</th><th>Event/Action</th></tr>";
         echo "\n";
 
         $i = 0;
         while($row = $select_table->fetch_assoc()) {
             if($i%2 == 0){
-                    echo "<tr><th class='white'>" . $row["datetime"] . "</th><th class='white'>" . $row["FW"] . "<br>" . $row["id"] . "</th><th class='white'>" . $row["rule"] . "</th><th class='white'>" . $row["ipproto"] . "</th><th class='white'>" . $row["recvif"] . "<br>" . $row["iface"] . "</th><th class='white'>" . $row["srcip"] . "<br>" . $row["destip"] . "</th><th class='white'>" . $row["srcport"] . "<br>" . $row["destport"] . "</th><th class='white'>" . $row["event"] . "<br>" . $row["action"] . "</th></tr>";
+                    echo "<tr><th>" . $row["datetime"] . "</th><th>" . $row["FW"] . "<br>" . $row["id"] . "</th><th>" . $row["rule"] . "</th><th>" . $row["ipproto"] . "</th><th>" . $row["recvif"] . "<br>" . $row["iface"] . "</th><th>" . $row["srcip"] . "<br>" . $row["destip"] . "</th><th>" . $row["srcport"] . "<br>" . $row["destport"] . "</th><th>" . $row["event"] . "<br>" . $row["action"] . "</th></tr>";
                 }else{
-                    echo "<tr><th class='gray'>" . $row["datetime"] . "</th><th class='gray'>" . $row["FW"] . "<br>" . $row["id"] . "</th><th class='gray'>" . $row["rule"] . "</th><th class='gray'>" . $row["ipproto"] . "</th><th class='gray'>" . $row["recvif"] . "<br>" . $row["iface"] . "</th><th class='gray'>" . $row["srcip"] . "<br>" . $row["destip"] . "</th><th class='gray'>" . $row["srcport"] . "<br>" . $row["destport"] . "</th><th class='gray'>" . $row["event"] . "<br>" . $row["action"] . "</th></tr>";
+                    echo "<tr><th>" . $row["datetime"] . "</th><th>" . $row["FW"] . "<br>" . $row["id"] . "</th><th>" . $row["rule"] . "</th><th>" . $row["ipproto"] . "</th><th>" . $row["recvif"] . "<br>" . $row["iface"] . "</th><th>" . $row["srcip"] . "<br>" . $row["destip"] . "</th><th>" . $row["srcport"] . "<br>" . $row["destport"] . "</th><th>" . $row["event"] . "<br>" . $row["action"] . "</th></tr>";
             }
             echo "\n\n";
             $i += 1;
