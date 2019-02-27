@@ -1,12 +1,14 @@
 <?php
 
 function imported($conn, $filename){
+    
     (int)$router = substr($filename, 6, 4);
     (int)$rok = substr($filename, 11, 4);
     (int)$mesic = substr($filename, 15, 2);
     (int)$den = substr($filename, 17, 2);
     (int)$id_soubor = substr($filename, 19, 2);
     $date = $rok. "-". $mesic. "-". $den;
+    ini_set('max_execution_time', 0);
 
     $sql = "SELECT * FROM imported";
     $result = $conn->query($sql);
@@ -23,6 +25,7 @@ function imported($conn, $filename){
 }
 
 function inset_imported($conn, $filename){
+
     (int)$router = substr($filename, 6, 4);
     (int)$rok = substr($filename, 11, 4);
     (int)$mesic = substr($filename, 15, 2);
@@ -30,6 +33,7 @@ function inset_imported($conn, $filename){
     (int)$id_soubor = substr($filename, 19, 2);
     $date = $rok. "-". $mesic. "-". $den;
     $date2 = '"'. $date . '"';
+    ini_set('max_execution_time', 0);
 
     $insert_imported = "INSERT INTO `imported`(`router`, `date`, `id`) VALUES ($router, $date2, $id_soubor)";
     if($conn->query($insert_imported) === TRUE){
@@ -38,8 +42,10 @@ function inset_imported($conn, $filename){
 }
 
 function insert_time($conn, $filename){
+
     (int)$rok = substr($filename, 11, 4);
     (int)$mesic = substr($filename, 15, 2);
+    ini_set('max_execution_time', 0);
 
     $insert_time = "INSERT INTO `time`(`year`, `month`) VALUES ($rok, $mesic)";
     if($conn->query($insert_time) === TRUE){
@@ -102,6 +108,7 @@ function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_in
 
 function id_info($conn){
 
+    ini_set('max_execution_time', 0);
     $sql_id = "SELECT `idPrimaryKey` FROM `info` ORDER BY `idPrimaryKey` DESC LIMIT 1";
     $id_info = $conn->query($sql_id);
     $id_info = $id_info->fetch_assoc();
@@ -110,7 +117,9 @@ function id_info($conn){
 }
 
 function tabulka($where, $order, $limit, $checkbox){
+
     $configs = include('config.php');
+    ini_set('max_execution_time', 0);
     $servername = $configs["servername"];
     $username = $configs["username"];
     $password = $configs["password"];
@@ -161,6 +170,7 @@ function tabulka($where, $order, $limit, $checkbox){
 function create_db(){
 
     $configs = include('config.php');
+    ini_set('max_execution_time', 0);
     $servername = $configs["servername"];
     $username = $configs["username"];
     $password = $configs["password"];
@@ -269,8 +279,9 @@ function create_db(){
 
 }
 
-function processFileChunk($conn, string $chunk, $router, $rok, $mesic, $id_info)
-{
+function processFileChunk($conn, string $chunk, $router, $rok, $mesic, $id_info){
+
+    ini_set('max_execution_time', 0);
     // Rozseká na nový řádky podle pole času
     $chunk = preg_replace(
         '/\[\d{4}(?:-\d{2}){2} (?:\d{2}:){2}\d{2}]/',
@@ -293,9 +304,9 @@ function processFileChunk($conn, string $chunk, $router, $rok, $mesic, $id_info)
     }
 }
 
-function processLine($conn, string $line, $router, $rok, $mesic, $id_info)
-{
+function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
 
+    ini_set('max_execution_time', 0);
     //výsledek řádku
     $parsedLine = [];
 
