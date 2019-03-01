@@ -34,7 +34,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     $conn = new mysqli($servername, $username, $password);
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error. "<br><br><br><br><br><br><br>DB nejde");
     }else{
         create_db();
         header("Refresh:0");
@@ -106,7 +106,7 @@ if(isset($_GET['limit'])){
 }else{
     $limit = " LIMIT 25";
 }
-
+//filter_input()
 
 echo "<br><br>";
 
