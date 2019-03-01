@@ -130,7 +130,6 @@ function tabulka($where, $order, $limit, $checkbox){
         $order2 = $order2 . ' ' . $order[$i];
         $i ++;
     }
-    echo $order2;
 
     $select_table = "SELECT info.router, info.datetime, info.FW, info.id, info.rule, info.ipproto, info.recvif, info.iface, info.srcip, info.destip, info.srcport, info.destport, info.event, info.action FROM info $where $order2 $limit";
 
