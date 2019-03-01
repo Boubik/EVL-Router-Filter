@@ -1,7 +1,7 @@
 <?php
 
 function imported($conn, $filename){
-    
+
     (int)$router = substr($filename, 6, 4);
     (int)$rok = substr($filename, 11, 4);
     (int)$mesic = substr($filename, 15, 2);
@@ -71,11 +71,14 @@ function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_in
     }
     $insert_info = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`) VALUES ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic)";    
     if($info['prio'] != '""'){
+
         if($configs['debug_echo'] == TRUE){
             echo $insert_info;
         }
+
         if($conn->query($insert_info) === TRUE){
             echo "New record created successfully insert_info<br>";
+
             if($id_info == FALSE){
                 $id_info = id_info($conn);
             }
@@ -89,21 +92,27 @@ function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_in
                 }
                 $k++;
             }
+
             $insert_more_info = "INSERT INTO `more_info`(`ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `rule`, `recvif`, `srcip`, `destip`, `ipdf`, `info_idPrimaryKey`) VALUES ( $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[rule], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $id_info)";
+            
             if($configs['debug_echo'] == TRUE){
                 echo $insert_more_info;
             }
+
             if($conn->query($insert_more_info) === TRUE){
                 echo "New record created successfully insert_more_info<br><br><br>";
             }else{
                 echo "něco se nepovedlo insert_more_info<br><br><br>";
                 echo $insert_more_info;
             }
+
+            //$GLOBALS["test"]+=1;
         }else{
             echo "něco se nepovedlo insert_info<br><br><br>";
             echo $insert_info;
         }
     }
+    //file_put_contents('filename.txt', $GLOBALS["test"]);
 }
 
 function id_info($conn){
@@ -279,7 +288,7 @@ function create_db(){
 
 }
 
-function processFileChunk($conn, string $chunk, $router, $rok, $mesic, $id_info){
+function processFileChunk($conn, $chunk, $router, $rok, $mesic, $id_info){
 
     ini_set('max_execution_time', 0);
     // Rozseká na nový řádky podle pole času
@@ -316,12 +325,10 @@ function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
     $datetime = explode('[', $line, 1);
     $datetime = preg_replace("/ /", "-", $datetime[0]);
     $datetime = substr($datetime, 1, 19);
-    //$parsedLine["datetime"] = $datetime;
 
     $FW = explode('FW: ', $line, 2);
     $FW = explode(':', $FW[1], 2);
     $FW = $FW[0];
-    //$parsedLine["FW"] = $FW[0];
 
     //rozdělí řádek na itemy (item je ve formátu: klíč=hodnota)
     $items = explode(' ', $line);

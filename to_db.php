@@ -24,6 +24,8 @@ foreach($fileList as $filename[$i]){
     (int)$rok = substr($filename[$i], 11, 4);
     (int)$mesic = substr($filename[$i], 15, 2);
 
+    $test = 0;
+
     if (imported($conn, $filename[$i]) == FALSE){
         inset_imported($conn, $filename[$i]);
         insert_time($conn, $filename[$i]);

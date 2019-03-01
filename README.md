@@ -2,6 +2,10 @@
 
 Is for filtering and storing evl logs from routers.
 
+supported format for .evl file is "2179_2018123122.evl"
+
+2179 -> router id, 2018 -> year, 12 -> mount, 31 -> day, 22 -> id of file 
+
 ## **Setup**
 
 1) Setup your server with php and mysql/marinadb.
