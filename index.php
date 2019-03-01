@@ -140,6 +140,12 @@ while($i != where){
     //db kde
     echo    '<select name="kde'. $i .'">
             <option value="">none</option>
+            <option value="info.router" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.router"){
+                echo "selected";
+            }
+
+    echo    '>router</option>
             <option value="info.datetime" ';
 
             if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.datetime"){
@@ -165,61 +171,61 @@ while($i != where){
             }
 
     echo    '>Rule</option>
-            <option value="more_info.ipproto" ';
+            <option value="info.ipproto" ';
             if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.ipproto"){
                 echo "selected";
             }
 
     echo    '>Proto</option>
-            <option value="more_info.recvif" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.recvif"){
+            <option value="info.recvif" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.recvif"){
                 echo "selected";
             }
 
     echo    '>IF Src</option>
-            <option value="more_info.iface" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.iface"){
+            <option value="info.iface" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.iface"){
                 echo "selected";
             }
 
     echo    '>IF Dst</option>
-            <option value="more_info.srcip" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.srcip"){
+            <option value="info.srcip" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.srcip"){
                 echo "selected";
             }
 
     echo    '>Proto</option>
-            <option value="more_info.destip" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.destip"){
+            <option value="info.destip" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.destip"){
                 echo "selected";
             }
 
     echo    '>IP Src</option>
-            <option value="more_info.srcport" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.srcport"){
+            <option value="info.srcport" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.srcport"){
                 echo "selected";
             }
 
     echo    '>IP Dst</option>
-            <option value="more_info.destport" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.destport"){
+            <option value="info.destport" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.destport"){
                 echo "selected";
             }
 
     echo    '>Port Src</option>
             <option value="info.event" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.event"){
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.event"){
                 echo "selected";
             }
 
-    echo    '>Port Dst</option>
-            <option value="more_info.action" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "more_info.action"){
+            echo    '>Port Dst</option>
+            <option value="info.action" ';
+            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.action"){
                 echo "selected";
             }
 
     echo    '>Action</option>
-            </select>';
+            </select>' . "\n";
 
 
     //checkbox rovno větší menší
@@ -272,7 +278,14 @@ echo    '<br><label>Order by</label><br>';
 $i = 0;
 while($i != checkbox){
     echo    '<select name="filter'. $i .'">
-            <option value="">none</option>
+            <option value="">none</option>';
+    echo    '<option value="info.router" ';
+
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.router"){
+                echo "selected";
+            }
+
+    echo    '>Router</option>
             <option value="info.datetime" ';
 
             if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.datetime"){
@@ -298,56 +311,56 @@ while($i != checkbox){
             }
 
     echo    '>Rule</option>
-            <option value="more_info.ipproto" ';
+            <option value="info.ipproto" ';
             if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.ipproto"){
                 echo "selected";
             }
 
     echo    '>Proto</option>
-            <option value="more_info.recvif" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.recvif"){
+            <option value="info.recvif" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.recvif"){
                 echo "selected";
             }
 
     echo    '>IF Src</option>
-            <option value="more_info.iface" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.iface"){
+            <option value="info.iface" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.iface"){
                 echo "selected";
             }
 
     echo    '>IF Dst</option>
-            <option value="more_info.srcip" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.srcip"){
+            <option value="info.srcip" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.srcip"){
                 echo "selected";
             }
 
     echo    '>Proto</option>
-            <option value="more_info.destip" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.destip"){
+            <option value="info.destip" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.destip"){
                 echo "selected";
             }
 
     echo    '>IP Src</option>
-            <option value="more_info.srcport" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.srcport"){
+            <option value="info.srcport" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.srcport"){
                 echo "selected";
             }
 
     echo    '>IP Dst</option>
-            <option value="more_info.destport" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.destport"){
+            <option value="info.destport" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.destport"){
                 echo "selected";
             }
 
     echo    '>Port Src</option>
             <option value="info.event" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.event"){
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.event"){
                 echo "selected";
             }
 
     echo    '>Port Dst</option>
-            <option value="more_info.action" ';
-            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "more_info.action"){
+            <option value="info.action" ';
+            if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] == "info.action"){
                 echo "selected";
             }
 
@@ -396,9 +409,17 @@ $i = 0;
 while($i != where){
     if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] != "" and $_GET['textkde'.$i] != ""){
         if($wherenable == TRUE){
-            $where = "and ";
+            $where = "WHERE ";
             $wherenable = FALSE;
         }
+
+        /*if($configs["router"] == TRUE and array_keys($configs, $_GET['kde'.$i]) and $_GET['kde'.$i] == "Mariánská"){
+            $key = array_keys($configs, $_GET['kde'.$i]);
+            $_GET['kde'.$i] = $configs[$key[2]];
+            echo "<br>".$key[0]."<br>";
+        }*/
+
+
         $where = $where .$_GET['kde'.$i] . ' ' . $_GET['znaminko'.$i] . ' "' . $_GET['textkde'.$i] . '" ';
         if($i == 0 and $_GET['kde'.(1)] != "" and $_GET['textkde'.(1)] != ""){
             $where = $where . ' ' . $_GET['andor'] . ' ';
@@ -411,16 +432,6 @@ $i ++;
 </div>
 <div class="table">
 <?php
-
-/*$i = 0;
-while($i != checkbox){
-    if(isset($_GET['filter'.$i]) and $_GET['filter'.$i] != ""){
-        echo $order[$i];
-    }
-    $i ++;
-}
-
-echo $where . $limit;*/
 
 echo "<br><br>";
 

@@ -1,1 +1,0 @@
-[2018-12-31 23:09:36] FW: RULE: prio=3 id=06000051 rev=1 event=ruleset_drop_packet action=drop rule=zakazat_inet_MTS recvif=ucebna4 srcip=192.168.140.35 destip=40.79.85.125 ipdf=1 ipproto=TCP ipdatalen=40 srcport=62075 destport=443 tcphdrlen=40 syn=1

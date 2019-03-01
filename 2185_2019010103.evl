@@ -1,0 +1,1 @@
+[2019-01-01 04:09:37] FW: CONN: prio=5 id=00600001 rev=1 event=conn_open rule=allow_from_local_all conn=open connipproto=UDP connrecvif=LAN-VG1 connsrcip=192.168.1.102 connsrcport=52775 conndestif=spolecna_iface conndestip=192.168.131.1 conndestport=161
