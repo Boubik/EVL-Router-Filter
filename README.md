@@ -9,7 +9,7 @@ supported format for .evl file is "2179_2018123122.evl"
 ## **Setup**
 
 1) Setup your server with Apache, PHP and Mysql/Marinadb
-2) look in config.php
+2) look in config.php in text editor
 3) open index.php in your browser
 4) put your .evl files in folder "files"
 5) click on "Import to DB" (it may take a while)
