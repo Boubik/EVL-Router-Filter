@@ -21,8 +21,6 @@ $dbname = $configs["dbname"];
 ini_set('max_execution_time', 0);
 $where = "";
 $wherenable = TRUE;
-$kde[] = "";
-$textkde[] = "";
 $order[] = "";
 $orderenabler = TRUE;
 $limit = " LIMIT 25";
@@ -137,90 +135,90 @@ while($i != where){
    
 
 
-    //db kde
-    echo    '<select name="kde'. $i .'">
+    //db where
+    echo    '<select name="where'. $i .'">
             <option value="">none</option>
             <option value="info.router" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.router"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.router"){
                 echo "selected";
             }
 
     echo    '>router</option>
             <option value="info.datetime" ';
 
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.datetime"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.datetime"){
                 echo "selected";
             }
 
     echo    '>Date</option>
             <option value="info.FW" '; 
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.FW"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.FW"){
                 echo "selected";
             }
 
     echo    '>Category</option>
             <option value="info.id" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.id"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.id"){
                 echo "selected";
             }
 
     echo    '>ID</option>
             <option value="info.rule" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.rule"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.rule"){
                 echo "selected";
             }
 
     echo    '>Rule</option>
             <option value="info.ipproto" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.ipproto"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.ipproto"){
                 echo "selected";
             }
 
     echo    '>Proto</option>
             <option value="info.recvif" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.recvif"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.recvif"){
                 echo "selected";
             }
 
     echo    '>IF Src</option>
             <option value="info.iface" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.iface"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.iface"){
                 echo "selected";
             }
 
     echo    '>IF Dst</option>
             <option value="info.srcip" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.srcip"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.srcip"){
                 echo "selected";
             }
 
     echo    '>Proto</option>
             <option value="info.destip" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.destip"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.destip"){
                 echo "selected";
             }
 
     echo    '>IP Src</option>
             <option value="info.srcport" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.srcport"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.srcport"){
                 echo "selected";
             }
 
     echo    '>IP Dst</option>
             <option value="info.destport" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.destport"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.destport"){
                 echo "selected";
             }
 
     echo    '>Port Src</option>
             <option value="info.event" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.event"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.event"){
                 echo "selected";
             }
 
             echo    '>Port Dst</option>
             <option value="info.action" ';
-            if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] == "info.action"){
+            if(isset($_GET['where'.$i]) and $_GET['where'.$i] == "info.action"){
                 echo "selected";
             }
 
@@ -228,28 +226,28 @@ while($i != where){
             </select>' . "\n";
 
 
-    //checkbox rovno větší menší
-    echo    '<select name="znaminko'.$i,'">
+    //checkbox smaler of biger
+    echo    '<select name="sign'.$i,'">
             <option value="="';
-            if(isset($_GET['znaminko'.$i]) and $_GET['znaminko'.$i] == "="){
+            if(isset($_GET['sign'.$i]) and $_GET['sign'.$i] == "="){
                 echo "selected";
             }
 
     echo    '>=</option>
             <option value=">"';
-            if(isset($_GET['znaminko'.$i]) and $_GET['znaminko'.$i] == ">"){
+            if(isset($_GET['sign'.$i]) and $_GET['sign'.$i] == ">"){
                 echo "selected";
             }
 
     echo    '>></option>
             <option value="<"';
-            if(isset($_GET['znaminko'.$i]) and $_GET['znaminko'.$i] == "<"){
+            if(isset($_GET['sign'.$i]) and $_GET['sign'.$i] == "<"){
                 echo "selected";
             }
 
     echo    '><</option>
             <option value="!="';
-            if(isset($_GET['znaminko'.$i]) and $_GET['znaminko'.$i] == "!="){
+            if(isset($_GET['sign'.$i]) and $_GET['sign'.$i] == "!="){
                 echo "selected";
             }
 
@@ -259,9 +257,9 @@ while($i != where){
 
 
     //podmka
-    echo    '<input type="text" name="textkde'.$i.'" value="'; 
-    if(isset($_GET['textkde'.$i]) and $_GET['textkde'.$i] != ""){
-        echo $_GET['textkde'.$i];
+    echo    '<input type="text" name="textwhere'.$i.'" value="'; 
+    if(isset($_GET['textwhere'.$i]) and $_GET['textwhere'.$i] != ""){
+        echo $_GET['textwhere'.$i];
     }
     echo    '">'. "\n";
     $i ++;
@@ -407,18 +405,18 @@ echo "<br><br>";
 echo "<br>\n";
 $i = 0;
 while($i != where){
-    if(isset($_GET['kde'.$i]) and $_GET['kde'.$i] != "" and $_GET['textkde'.$i] != ""){
+    if(isset($_GET['where'.$i]) and $_GET['where'.$i] != "" and $_GET['textwhere'.$i] != ""){
         if($wherenable == TRUE){
             $where = "WHERE ";
             $wherenable = FALSE;
         }
 
-        if(!(isset($configs[$_GET['textkde'.$i]])) and $_GET['textkde'.$i] != array_search($_GET['textkde'.$i],$configs, true)){
-            $_GET['textkde'.$i] = array_search($_GET['textkde'.$i],$configs, true);
+        if(!(isset($configs[$_GET['textwhere'.$i]])) and $_GET['textwhere'.$i] != array_search($_GET['textwhere'.$i],$configs, true)){
+            $_GET['textwhere'.$i] = array_search($_GET['textwhere'.$i],$configs, true);
         }
 
-        $where = $where .$_GET['kde'.$i] . ' ' . $_GET['znaminko'.$i] . ' "' . $_GET['textkde'.$i] . '" ';
-        if($i == 0 and $_GET['kde'.(1)] != "" and $_GET['textkde'.(1)] != ""){
+        $where = $where .$_GET['where'.$i] . ' ' . $_GET['sign'.$i] . ' "' . $_GET['textwhere'.$i] . '" ';
+        if($i == 0 and $_GET['where'.(1)] != "" and $_GET['textwhere'.(1)] != ""){
             $where = $where . ' ' . $_GET['andor'] . ' ';
         }
     }
