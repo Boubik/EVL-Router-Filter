@@ -413,12 +413,9 @@ while($i != where){
             $wherenable = FALSE;
         }
 
-        /*if($configs["router"] == TRUE and array_keys($configs, $_GET['kde'.$i]) and $_GET['kde'.$i] == "Mariánská"){
-            $key = array_keys($configs, $_GET['kde'.$i]);
-            $_GET['kde'.$i] = $configs[$key[2]];
-            echo "<br>".$key[0]."<br>";
-        }*/
-
+        if(!(isset($configs[$_GET['textkde'.$i]])) and $_GET['textkde'.$i] != array_search($_GET['textkde'.$i],$configs, true)){
+            $_GET['textkde'.$i] = array_search($_GET['textkde'.$i],$configs, true);
+        }
 
         $where = $where .$_GET['kde'.$i] . ' ' . $_GET['znaminko'.$i] . ' "' . $_GET['textkde'.$i] . '" ';
         if($i == 0 and $_GET['kde'.(1)] != "" and $_GET['textkde'.(1)] != ""){

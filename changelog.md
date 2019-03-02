@@ -1,5 +1,9 @@
 # **Change log**
 
+## v0.3.1
+
+- add filtring for router name
+
 ## v0.3
 
 - rewrote db
