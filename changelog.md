@@ -2,7 +2,7 @@
 
 ## v0.3.1
 
-- add filtring for router name
+- add filtering for router name
 
 ## v0.3
 
