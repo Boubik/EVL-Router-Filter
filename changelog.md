@@ -1,5 +1,9 @@
 # **Change log**
 
+## v0.3.2
+
+- create db by name set in config
+
 ## v0.3.1
 
 - add filtering for router name
