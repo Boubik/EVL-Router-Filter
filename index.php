@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html"; charset="UTF-8">
     <link href="styles/index.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="images/logo.ico">
     <title>EVL Router Filter</title>
@@ -27,12 +27,17 @@ $limit = " LIMIT 25";
 $i = 0;
 const where = 2;
 const checkbox = 3;
+const test = 0;
 include "functions.php";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     $conn = new mysqli($servername, $username, $password);
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error. "<br><br><br><br><br><br><br>DB nejde");
+        if($configs["debug_echo"] === TRUE){
+            die("Connection failed: " . $conn->connect_error);
+        }else{
+            die("Connection to db failed: ");
+        }
     }else{
         create_db();
         header("Refresh:0");
@@ -434,6 +439,7 @@ tabulka($where, $order, $limit, checkbox);
 
 
 echo "<br><br>";
+$conn->close();
 ?>
 </div>
 

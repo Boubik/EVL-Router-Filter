@@ -89,6 +89,7 @@ function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_in
 
         if($conn->query($insert_info) === TRUE){
             echo "New record created successfully insert_info<br>";
+            //$GLOBALS["test"] ++;
 
             if($id_info == FALSE){
                 $id_info = id_info($conn);
@@ -99,6 +100,7 @@ function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_in
             echo $insert_info;
         }
     }
+    //file_put_contents('filename.txt', print_r($GLOBALS["test"], true));
 }
 
 function id_info($conn){
