@@ -8,7 +8,7 @@ return array(
     'debug_echo' => FALSE,                   // will echo more info in to_db.php
     'delete_evl' => FALSE,                   // if TRUE it will delete .evl after import
 
-    'insert' => 10,                        //rows per one insert (max)
+    'insert' => 100,                        //rows per one insert (max)
 
     'router' => TRUE,                       // if TRUE router id will be changet to what you want
     '2179' => "Mariánská",                   // id of router to print name

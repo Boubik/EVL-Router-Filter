@@ -2,6 +2,7 @@
 $configs = include('config.php');
 include "functions.php";
 $i = 0;
+$k = 0;
 $string = "";
 $fileList = glob('files/*.evl');
 $configs = include('config.php');
@@ -49,6 +50,9 @@ foreach($fileList as $filename[$i]){
     if(substr($GLOBALS["insert_info"], -5) != $last5){
         to_DB($conn);
     }
+
+
+
 }
 $conn->close();
 echo "<br><br>Všechno je hotové super <br><br>( •_•) <br>( •_•)>⌐■-■ <br>(⌐■_■)";

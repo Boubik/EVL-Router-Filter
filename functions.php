@@ -292,7 +292,6 @@ function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
         }else{
             creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic);
         }
-        $GLOBALS["insert_count"] += 1;
     }
 }
 
@@ -330,6 +329,7 @@ function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, 
         }else{
             $GLOBALS["insert_info"] .= " ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic, $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf])";
         }
+        $GLOBALS["insert_count"] += 1;
     }
 
 }
