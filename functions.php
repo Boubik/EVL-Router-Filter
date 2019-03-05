@@ -1,13 +1,7 @@
 <?php
 
-function imported($conn, $filename){
+function imported($conn, $router, $id_soubor, $date){
 
-    (int)$router = substr($filename, 6, 4);
-    (int)$rok = substr($filename, 11, 4);
-    (int)$mesic = substr($filename, 15, 2);
-    (int)$den = substr($filename, 17, 2);
-    (int)$id_soubor = substr($filename, 19, 2);
-    $date = $rok. "-". $mesic. "-". $den;
     ini_set('max_execution_time', 0);
 
     $sql = "SELECT * FROM imported";
@@ -24,32 +18,29 @@ function imported($conn, $filename){
     }
 }
 
-function inset_imported($conn, $filename){
+function inset_imported($conn, $router, $id_soubor, $date){
 
-    (int)$router = substr($filename, 6, 4);
-    (int)$rok = substr($filename, 11, 4);
-    (int)$mesic = substr($filename, 15, 2);
-    (int)$den = substr($filename, 17, 2);
-    (int)$id_soubor = substr($filename, 19, 2);
-    $date = $rok. "-". $mesic. "-". $den;
-    $date2 = '"'. $date . '"';
     ini_set('max_execution_time', 0);
 
-    $insert_imported = "INSERT INTO `imported`(`router`, `date`, `id`) VALUES ($router, $date2, $id_soubor)";
+    $insert_imported = "INSERT INTO `imported`(`router`, `date`, `id`) VALUES ($router, $date, $id_soubor)";
     if($conn->query($insert_imported) === TRUE){
         echo "<br>New record created successfully insert_imported<br>";
+    }else{
+        echo "<br>něco se nepovedlo insert_imported<br>";
+        echo $insert_imported;
     }
 }
 
-function insert_time($conn, $filename){
+function insert_time($conn, $date){
 
-    (int)$rok = substr($filename, 11, 4);
-    (int)$mesic = substr($filename, 15, 2);
     ini_set('max_execution_time', 0);
 
-    $insert_time = "INSERT INTO `time`(`year`, `month`) VALUES ($rok, $mesic)";
+    $insert_time = "INSERT INTO `time`(`date`) VALUES ($date)";
     if($conn->query($insert_time) === TRUE){
         echo "<br>New record created successfully insert_time<br>";
+    }else{
+        echo "<br>něco se nepovedlo insert_time<br>";
+        echo $insert_time;
     }
 }
 
@@ -94,9 +85,9 @@ function tabulka($where, $order, $limit, $checkbox){
                 $row["router"] = $configs[$row["router"]];
             }
             if($i%2 == 0){
-                    echo "<tr><th>" . $row["router"] . "</th><th>" . $row["datetime"] . "</th><th>" . $row["FW"] . "<br>" . $row["id"] . "</th><th>" . $row["rule"] . "</th><th>" . $row["ipproto"] . "</th><th>" . $row["recvif"] . "<br>" . $row["iface"] . "</th><th>" . $row["srcip"] . "<br>" . $row["destip"] . "</th><th>" . $row["srcport"] . "<br>" . $row["destport"] . "</th><th>" . $row["event"] . "<br>" . $row["action"] . "</th></tr>";
+                    echo "<tr><th>" . $row["router"] . "</th><th>" . $row["datetime"] . "</th><th>" . $row["FW"] . "<br><br>" . $row["id"] . "</th><th>" . $row["rule"] . "</th><th>" . $row["ipproto"] . "</th><th>" . $row["recvif"] . "<br><br>" . $row["iface"] . "</th><th>" . $row["srcip"] . "<br><br>" . $row["destip"] . "</th><th>" . $row["srcport"] . "<br><br>" . $row["destport"] . "</th><th>" . $row["event"] . "<br><br>" . $row["action"] . "</th></tr>";
                 }else{
-                    echo "<tr><th>" . $row["router"] . "</th><th>" . $row["datetime"] . "</th><th>" . $row["FW"] . "<br>" . $row["id"] . "</th><th>" . $row["rule"] . "</th><th>" . $row["ipproto"] . "</th><th>" . $row["recvif"] . "<br>" . $row["iface"] . "</th><th>" . $row["srcip"] . "<br>" . $row["destip"] . "</th><th>" . $row["srcport"] . "<br>" . $row["destport"] . "</th><th>" . $row["event"] . "<br>" . $row["action"] . "</th></tr>";
+                    echo "<tr><th>" . $row["router"] . "</th><th>" . $row["datetime"] . "</th><th>" . $row["FW"] . "<br><br>" . $row["id"] . "</th><th>" . $row["rule"] . "</th><th>" . $row["ipproto"] . "</th><th>" . $row["recvif"] . "<br><br>" . $row["iface"] . "</th><th>" . $row["srcip"] . "<br><br>" . $row["destip"] . "</th><th>" . $row["srcport"] . "<br><br>" . $row["destport"] . "</th><th>" . $row["event"] . "<br><br>" . $row["action"] . "</th></tr>";
             }
             echo "\n\n";
             $i += 1;
@@ -125,63 +116,61 @@ function create_db(){
 
     $sql[2] = "USE ".$configs["dbname"]."";
     $sql[3] = "CREATE TABLE IF NOT EXISTS ".$configs["dbname"].".`imported` (
-    `router` VARCHAR(4) NOT NULL,
-    `date` DATE NOT NULL,
-    `id` TINYINT UNSIGNED NOT NULL,
-    PRIMARY KEY (`router`, `date`, `id`))
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8";
+        `router` SMALLINT NOT NULL,
+        `date` DATE NOT NULL,
+        `id` TINYINT UNSIGNED NOT NULL,
+        PRIMARY KEY (`router`, `date`, `id`))
+      ENGINE = InnoDB
+      DEFAULT CHARACTER SET = utf8";
 
     $sql[4] = "CREATE TABLE IF NOT EXISTS ".$configs["dbname"].".`time` (
-    `year` YEAR(4) NOT NULL,
-    `month` CHAR(2) NOT NULL,
-    PRIMARY KEY (`year`, `month`))
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8";
+        `date` DATE NOT NULL,
+        PRIMARY KEY (`date`))
+      ENGINE = InnoDB
+      DEFAULT CHARACTER SET = utf8";
 
     $sql[5] = "CREATE TABLE IF NOT EXISTS ".$configs["dbname"].".`info` (
-    `idPrimaryKey` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `router` VARCHAR(4) NOT NULL,
-    `datetime` DATETIME NOT NULL,
-    `FW` VARCHAR(45) NOT NULL,
-    `prio` TINYINT UNSIGNED NOT NULL,
-    `id` INT UNSIGNED NOT NULL,
-    `rev` TINYINT UNSIGNED NOT NULL,
-    `event` VARCHAR(45) NOT NULL,
-    `rule` VARCHAR(45) NOT NULL,
-    `time_year` YEAR(4) NOT NULL,
-    `time_month` CHAR(2) NOT NULL,
-    `ipproto` VARCHAR(10) NULL,
-    `ipdatalen` TINYINT UNSIGNED NULL,
-    `srcport` SMALLINT UNSIGNED NULL,
-    `destport` SMALLINT UNSIGNED NULL,
-    `tcphdrlen` TINYINT UNSIGNED NULL,
-    `syn` TINYINT UNSIGNED NULL,
-    `ece` TINYINT UNSIGNED NULL,
-    `cwr` TINYINT UNSIGNED NULL,
-    `ttl` TINYINT UNSIGNED NULL,
-    `ttlmin` TINYINT UNSIGNED NULL,
-    `udptotlen` TINYINT UNSIGNED NULL,
-    `ipaddr` VARCHAR(45) NULL,
-    `iface` VARCHAR(45) NULL,
-    `origsent` SMALLINT UNSIGNED NULL,
-    `termsent` SMALLINT UNSIGNED NULL,
-    `conntime` SMALLINT UNSIGNED NULL,
-    `conn` VARCHAR(20) NULL,
-    `action` VARCHAR(45) NULL,
-    `badflag` VARCHAR(45) NULL,
-    `recvif` VARCHAR(45) NULL,
-    `srcip` VARCHAR(45) NULL,
-    `destip` VARCHAR(45) NULL,
-    `ipdf` TINYINT UNSIGNED NULL,
-    PRIMARY KEY (`idPrimaryKey`),
-    INDEX `fk_info_time1_idx` (`time_year` ASC, `time_month` ASC),
-    CONSTRAINT `fk_info_time1`
-        FOREIGN KEY (`time_year` , `time_month`)
-        REFERENCES `evl`.`time` (`year` , `month`)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION)
-    ENGINE = InnoDB";
+        `idPrimaryKey` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        `router` VARCHAR(4) NOT NULL,
+        `datetime` DATETIME NOT NULL,
+        `FW` VARCHAR(45) NOT NULL,
+        `prio` TINYINT UNSIGNED NOT NULL,
+        `id` INT UNSIGNED NOT NULL,
+        `rev` TINYINT UNSIGNED NOT NULL,
+        `event` VARCHAR(45) NOT NULL,
+        `rule` VARCHAR(45) NOT NULL,
+        `ipproto` VARCHAR(10) NULL,
+        `ipdatalen` TINYINT UNSIGNED NULL,
+        `srcport` SMALLINT UNSIGNED NULL,
+        `destport` SMALLINT UNSIGNED NULL,
+        `tcphdrlen` TINYINT UNSIGNED NULL,
+        `syn` TINYINT UNSIGNED NULL,
+        `ece` TINYINT UNSIGNED NULL,
+        `cwr` TINYINT UNSIGNED NULL,
+        `ttl` TINYINT UNSIGNED NULL,
+        `ttlmin` TINYINT UNSIGNED NULL,
+        `udptotlen` TINYINT UNSIGNED NULL,
+        `ipaddr` VARCHAR(45) NULL,
+        `iface` VARCHAR(45) NULL,
+        `origsent` SMALLINT UNSIGNED NULL,
+        `termsent` SMALLINT UNSIGNED NULL,
+        `conntime` SMALLINT UNSIGNED NULL,
+        `conn` VARCHAR(45) NULL,
+        `action` VARCHAR(45) NULL,
+        `badflag` VARCHAR(45) NULL,
+        `recvif` VARCHAR(45) NULL,
+        `srcip` VARCHAR(45) NULL,
+        `destip` VARCHAR(45) NULL,
+        `ipdf` TINYINT UNSIGNED NULL,
+        `time_date` DATE NOT NULL,
+        PRIMARY KEY (`idPrimaryKey`),
+        INDEX `fk_info_time_idx` (`time_date` ASC),
+        CONSTRAINT `fk_info_time`
+          FOREIGN KEY (`time_date`)
+          REFERENCES ".$configs["dbname"].".`time` (`date`)
+          ON DELETE NO ACTION
+          ON UPDATE NO ACTION)
+      ENGINE = InnoDB";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -209,7 +198,7 @@ function create_db(){
 
 }
 
-function processFileChunk($conn, $chunk, $router, $rok, $mesic, $id_info){
+function processFileChunk($conn, $chunk, $router, $date, $id_info){
 
     ini_set('max_execution_time', 0);
     // Rozseká na nový řádky podle pole času
@@ -230,11 +219,11 @@ function processFileChunk($conn, $chunk, $router, $rok, $mesic, $id_info){
     $lines = explode("\n", $chunk);
 
     foreach ($lines as $line) {
-        processLine($conn, $line, $router, $rok, $mesic, $id_info);
+        processLine($conn, $line, $router, $date, $id_info);
     }
 }
 
-function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
+function processLine($conn, string $line, $router, $date, $id_info){
 
     $configs = include('config.php');
     ini_set('max_execution_time', 0);
@@ -277,25 +266,26 @@ function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
 
     if (!empty($parsedLine)) {
         if($GLOBALS["insert_count"] == 1){
-            $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
-            creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic);
-        }
-
-        if(($GLOBALS["insert_count"] % $configs["insert"]) == 0){
-            $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
-            $last5 = substr($last5, -5);
-
-            if(substr($GLOBALS["insert_info"], -5) != $last5){
-                to_DB($conn);
-            }
-            $GLOBALS["insert_count"] = 1;
+            $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
+            creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
         }else{
-            creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic);
+
+            if(($GLOBALS["insert_count"] % $configs["insert"]) == 0){
+                $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
+                $last5 = substr($last5, -5);
+
+                if(substr($GLOBALS["insert_info"], -5) != $last5){
+                    to_DB($conn);
+                }
+                $GLOBALS["insert_count"] = 1;
+            }else{
+                creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
+            }
         }
     }
 }
 
-function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic){
+function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date){
     $configs = include('config.php');
     ini_set('max_execution_time', 0);
 
@@ -321,13 +311,13 @@ function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, 
         $k++;
     }
 
-    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
     $last5 = substr($last5, -5);
     if($info['prio'] != '""'){
         if($GLOBALS["insert_count"] != 1 and substr($GLOBALS["insert_info"], -5) != $last5){
-            $GLOBALS["insert_info"] .= ", ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic, $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf])";
+            $GLOBALS["insert_info"] .= ", ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
         }else{
-            $GLOBALS["insert_info"] .= " ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic, $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf])";
+            $GLOBALS["insert_info"] .=  " ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
         }
         $GLOBALS["insert_count"] += 1;
     }

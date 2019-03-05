@@ -9,7 +9,7 @@ body {
 
 .wrapper {
     height: 100%;
-    width: 50em;
+    width: 55em;
     margin: auto;
     left: 0;
     right: 0;
@@ -80,13 +80,21 @@ header {
     font-size: .9em;
 }
 
+table {
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    table-layout:fixed;
+    word-wrap: break-word
+}
+
+
 .table{
     display: inline-block;
     margin: auto;
     left: 0;
     right: 0;
-    width: 100%;
-    
 }
 
 .table tr:nth-child(odd) {

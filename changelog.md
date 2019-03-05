@@ -1,5 +1,10 @@
 # **Change log**
 
+## v0.5
+
+- rewrote db
+- better readability
+
 ## v0.4
 
 - rewrote db

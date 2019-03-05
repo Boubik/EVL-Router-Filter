@@ -26,13 +26,16 @@ foreach($fileList as $filename[$i]){
     (int)$router = substr($filename[$i], 6, 4);
     (int)$rok = substr($filename[$i], 11, 4);
     (int)$mesic = substr($filename[$i], 15, 2);
-
-    if (imported($conn, $filename[$i]) == FALSE){
-        inset_imported($conn, $filename[$i]);
-        insert_time($conn, $filename[$i]);
+    (int)$den = substr($filename[$i], 17, 2);
+    (int)$id_soubor = substr($filename[$i], 19, 2);
+    $date = "'".$rok. "-". $mesic. "-". $den."'";
+    echo $router, $id_soubor, $date;
+    if (imported($conn, $router, $id_soubor, $date) == FALSE){
+        inset_imported($conn, $router, $id_soubor, $date);
+        insert_time($conn, $date);
         $id_info = FALSE;
         while (($chunk = fgets($handle)) !== false){
-            processFileChunk($conn, $chunk, $router, $rok, $mesic, $id_info);
+            processFileChunk($conn, $chunk, $router, $date, $id_info);
         }
     
         fclose($handle);
@@ -44,7 +47,7 @@ foreach($fileList as $filename[$i]){
         unlink($filename[$i]);
     }
     $i++;
-    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `time_day`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
     $last5 = substr($last5, -5);
 
     if(substr($GLOBALS["insert_info"], -5) != $last5){

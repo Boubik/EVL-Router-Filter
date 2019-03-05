@@ -450,7 +450,7 @@ $conn->close();
         <p>Jan Chlouba, Jakub Hájek</p>
     </div>
     <div class="footer_right">
-        <p>2019</p>
+        <p>v0.5&nbsp;&nbsp;&nbsp;2019</p>
     </div>
 </footer>
 
