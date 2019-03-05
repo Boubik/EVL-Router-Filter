@@ -29,7 +29,6 @@ foreach($fileList as $filename[$i]){
     (int)$den = substr($filename[$i], 17, 2);
     (int)$id_soubor = substr($filename[$i], 19, 2);
     $date = "'".$rok. "-". $mesic. "-". $den."'";
-    echo $router, $id_soubor, $date;
     if (imported($conn, $router, $id_soubor, $date) == FALSE){
         inset_imported($conn, $router, $id_soubor, $date);
         insert_time($conn, $date);
