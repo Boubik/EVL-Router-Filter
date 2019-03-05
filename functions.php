@@ -53,66 +53,6 @@ function insert_time($conn, $filename){
     }
 }
 
-function to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_info){
-
-    $configs = include('config.php');
-    ini_set('max_execution_time', 0);
-
-    $info = array("router" => "NULL", "datetime" => "NULL", "FW" => "NULL", "prio" => "NULL", "id" => "NULL", "rev" => "NULL", "event" => "NULL", "rule" => "NULL", "time_year" => "NULL", "time_month" => "NULL");
-    $key = array("router", "datetime", "FW", "prio", "id", "rev", "event", "rule", "time_year", "time_month");
-    $k = 0;
-    while($k != 10){
-        if(array_key_exists($key[$k] , $parsedLine)){
-            $info[$key[$k]] = '"'.$parsedLine[$key[$k]].'"';
-        }else{
-            $info[$key[$k]] = '""';
-        }
-        $k++;
-    }
-
-    $more_info = array("ipproto" => "NULL","ipdatalen" => "NULL","srcport" => "NULL","destport" => "NULL","tcphdrlen" => "NULL","syn" => "NULL","ece" => "NULL","cwr" => "NULL","ttl" => "NULL","ttlmin" => "NULL","udptotlen" => "NULL","ipaddr" => "NULL","iface" => "NULL","origsent" => "NULL","srcport" => "NULL","termsent" => "NULL","conntime" => "NULL","conn" => "NULL","action" => "NULL","badflag" => "NULL","rule" => "NULL","recvif" => "NULL","srcip" => "NULL","destip" => "NULL","ipdf" => "NULL","info_idPrimaryKey" => "NULL",);
-    $key = array("ipproto", "ipdatalen", "srcport", "destport", "tcphdrlen", "syn", "ece", "cwr", "ttl", "ttlmin", "udptotlen", "ipaddr", "iface", "origsent", "termsent", "conntime", "conn", "action", "badflag", "rule", "recvif", "srcip", "destip", "ipdf", "info_idPrimaryKey");
-    $k = 0;
-    while($k != 25){
-        if(array_key_exists($key[$k] , $parsedLine)){
-            $more_info[$key[$k]] = '"'.$parsedLine[$key[$k]].'"';
-        }
-        $k++;
-    }
-
-    $insert_info = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic, $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf])";    
-    if($info['prio'] != '""'){
-
-        if($configs['debug_echo'] == TRUE){
-            echo $insert_info;
-        }
-
-        if($conn->query($insert_info) === TRUE){
-            echo "New record created successfully insert_info<br>";
-            //$GLOBALS["test"] ++;
-
-            if($id_info == FALSE){
-                $id_info = id_info($conn);
-            }
-
-        }else{
-            echo "něco se nepovedlo insert_info<br><br><br>";
-            echo $insert_info;
-        }
-    }
-    //file_put_contents('filename.txt', print_r($GLOBALS["test"], true));
-}
-
-function id_info($conn){
-
-    ini_set('max_execution_time', 0);
-    $sql_id = "SELECT `idPrimaryKey` FROM `info` ORDER BY `idPrimaryKey` DESC LIMIT 1";
-    $id_info = $conn->query($sql_id);
-    $id_info = $id_info->fetch_assoc();
-    $id_info = $id_info["idPrimaryKey"];
-    return $id_info;
-}
-
 function tabulka($where, $order, $limit, $checkbox){
 
     $configs = include('config.php');
@@ -296,6 +236,7 @@ function processFileChunk($conn, $chunk, $router, $rok, $mesic, $id_info){
 
 function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
 
+    $configs = include('config.php');
     ini_set('max_execution_time', 0);
     //výsledek řádku
     $parsedLine = [];
@@ -335,7 +276,80 @@ function processLine($conn, string $line, $router, $rok, $mesic, $id_info){
     }
 
     if (!empty($parsedLine)) {
-        to_DB($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic, $id_info);
+        if($GLOBALS["insert_count"] == 1){
+            $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+            creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic);
+        }
+
+        if(($GLOBALS["insert_count"] % $configs["insert"]) == 0){
+            $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+            $last5 = substr($last5, -5);
+
+            if(substr($GLOBALS["insert_info"], -5) != $last5){
+                to_DB($conn);
+            }
+            $GLOBALS["insert_count"] = 1;
+        }else{
+            creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic);
+        }
+        $GLOBALS["insert_count"] += 1;
+    }
+}
+
+function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $rok, $mesic){
+    $configs = include('config.php');
+    ini_set('max_execution_time', 0);
+
+    $info = array("router" => "NULL", "datetime" => "NULL", "FW" => "NULL", "prio" => "NULL", "id" => "NULL", "rev" => "NULL", "event" => "NULL", "rule" => "NULL", "time_year" => "NULL", "time_month" => "NULL");
+    $key = array("router", "datetime", "FW", "prio", "id", "rev", "event", "rule", "time_year", "time_month");
+    $k = 0;
+    while($k != 10){
+        if(array_key_exists($key[$k] , $parsedLine)){
+            $info[$key[$k]] = '"'.$parsedLine[$key[$k]].'"';
+        }else{
+            $info[$key[$k]] = '""';
+        }
+        $k++;
+    }
+
+    $more_info = array("ipproto" => "NULL","ipdatalen" => "NULL","srcport" => "NULL","destport" => "NULL","tcphdrlen" => "NULL","syn" => "NULL","ece" => "NULL","cwr" => "NULL","ttl" => "NULL","ttlmin" => "NULL","udptotlen" => "NULL","ipaddr" => "NULL","iface" => "NULL","origsent" => "NULL","srcport" => "NULL","termsent" => "NULL","conntime" => "NULL","conn" => "NULL","action" => "NULL","badflag" => "NULL","rule" => "NULL","recvif" => "NULL","srcip" => "NULL","destip" => "NULL","ipdf" => "NULL","info_idPrimaryKey" => "NULL",);
+    $key = array("ipproto", "ipdatalen", "srcport", "destport", "tcphdrlen", "syn", "ece", "cwr", "ttl", "ttlmin", "udptotlen", "ipaddr", "iface", "origsent", "termsent", "conntime", "conn", "action", "badflag", "rule", "recvif", "srcip", "destip", "ipdf", "info_idPrimaryKey");
+    $k = 0;
+    while($k != 25){
+        if(array_key_exists($key[$k] , $parsedLine)){
+            $more_info[$key[$k]] = '"'.$parsedLine[$key[$k]].'"';
+        }
+        $k++;
+    }
+
+    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+    $last5 = substr($last5, -5);
+    if($info['prio'] != '""'){
+        if($GLOBALS["insert_count"] != 1 and substr($GLOBALS["insert_info"], -5) != $last5){
+            $GLOBALS["insert_info"] .= ", ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic, $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf])";
+        }else{
+            $GLOBALS["insert_info"] .= " ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $rok, $mesic, $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf])";
+        }
+    }
+
+}
+
+function to_DB($conn){
+
+    ini_set('max_execution_time', 0);
+    $configs = include('config.php');
+    $insert_info = $GLOBALS["insert_info"];
+
+    if($configs['debug_echo'] == TRUE){
+        echo $insert_info."<br><br>";
+    }
+
+    if($conn->query($insert_info) === TRUE){
+        echo "<br>New record created successfully insert_info<br>";
+
+    }else{
+        echo "<br>něco se nepovedlo insert_info<br><br><br>";
+        echo $insert_info;
     }
 }
 

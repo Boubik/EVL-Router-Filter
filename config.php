@@ -6,7 +6,9 @@ return array(
     'dbname' => 'evl',                      // db name (it automatically create db with that name)
 
     'debug_echo' => FALSE,                   // will echo more info in to_db.php
-    'delete_evl' => TRUE,                   // if TRUE it will delete .evl after import
+    'delete_evl' => FALSE,                   // if TRUE it will delete .evl after import
+
+    'insert' => 10,                        //rows per one insert (max)
 
     'router' => TRUE,                       // if TRUE router id will be changet to what you want
     '2179' => "Mariánská",                   // id of router to print name

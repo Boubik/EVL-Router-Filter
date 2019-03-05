@@ -17,6 +17,8 @@ if ($conn->connect_error) {
 } 
 
 foreach($fileList as $filename[$i]){
+    $insert_count = 1;
+    $insert_info = "";
     $handle = fopen($filename[$i], "r");
     //Simply print them out onto the screen.
     echo $filename[$i]. "<br><br>";
@@ -41,6 +43,12 @@ foreach($fileList as $filename[$i]){
         unlink($filename[$i]);
     }
     $i++;
+    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+    $last5 = substr($last5, -5);
+
+    if(substr($GLOBALS["insert_info"], -5) != $last5){
+        to_DB($conn);
+    }
 }
 $conn->close();
 echo "<br><br>Všechno je hotové super <br><br>( •_•) <br>( •_•)>⌐■-■ <br>(⌐■_■)";
