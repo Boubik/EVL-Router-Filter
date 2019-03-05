@@ -1,5 +1,11 @@
 # **Change log**
 
+## v0.4
+
+- rewrote db
+- faster import
+- config how much lines per one insert
+
 ## v0.3.2
 
 - create db by name set in config

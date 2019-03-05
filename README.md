@@ -20,9 +20,13 @@ supported format for .evl file is "2179_2018123122.evl"
 
 ## **Testing** (I5-5257U 2,7Ghz  8GB ram)
 
+#### v0.4
+
+- test.evl (42 MB) --> to db (19,1 MB) --> save ~52,6% (~8s)
+
 #### v0.3.x
 
-- test.evl (42 MB) --> to db (17,1 MB) --> save ~59,3% (~1m 42s)
+- test.evl (42 MB) --> to db (19,1 MB) --> save ~52,6% (~1m 42s)
 
 #### v0.2
 
