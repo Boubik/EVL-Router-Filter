@@ -4,6 +4,7 @@
 
 - rewrote db
 - better readability
+- some changes in UI
 
 ## v0.4
 
