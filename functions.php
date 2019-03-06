@@ -30,9 +30,19 @@ function inset_imported($conn, $router, $id_soubor, $date){
 
     $insert_imported = "INSERT INTO `imported`(`router`, `date`, `id`) VALUES ($router, $date, $id_soubor)";
     if($conn->query($insert_imported) === TRUE){
-        echo "<br>New record created successfully: insert_imported<br><br><br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "New record created successfully: insert_imported\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "<br>New record created successfully: insert_imported<br><br><br>";
+        }
     }else{
-        echo "<br>something go wrong: insert_imported<br><br><br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "something go wrong: insert_imported: insert_time\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "<br>something go wrong: insert_imported<br><br><br>";
+        }
     }
 }
 
@@ -47,9 +57,19 @@ function insert_time($conn, $date){
 
     $insert_time = "INSERT INTO `time`(`date`) VALUES ($date)";
     if($conn->query($insert_time) === TRUE){
-        echo "<br>New record created successfully: insert_time<br><br><br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "New record created successfully: insert_time\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "<br>New record created successfully: insert_time<br><br><br>";
+        }
     }else{
-        echo "<br>something go wrong: insert_time<br><br><br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "something go wrong: insert_time\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "<br>something go wrong: insert_time<br><br><br>";
+        }
     }
 }
 
@@ -191,16 +211,25 @@ function create_db(){
         }else{
             while($i != 6){
                 if($conn->query($sql[$i]) === TRUE){
-                    echo $sql[$i] . "<br>";
                 }else{
-                    echo "něco se nepodařilo :/<br>";
+                    if($configs["log_print"] == TRUE){
+                        $GLOBALS['log'] .= "something goes wrong\n\n";
+                    }
+                    if($configs["dialog_echo"] == TRUE){
+                        echo "something goes wrong/<br>";
+                    }
                 }
                 $i++;
             }
         }
 
     }else{
-        echo "db už exituje<br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "db alredy exit\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "db alredy exit<br>";
+        }
     }
 
     $conn->close();
@@ -328,14 +357,13 @@ function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date)
 
     $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
     $last5 = substr($last5, -5);
-    //if($info['prio'] != '""'){
-        if($GLOBALS["insert_count"] != 1 and substr($GLOBALS["insert_info"], -5) != $last5){
-            $GLOBALS["insert_info"] .= ", ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
-        }else{
-            $GLOBALS["insert_info"] .=  " ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
-        }
-        $GLOBALS["insert_count"] += 1;
-    //}
+
+    if($GLOBALS["insert_count"] != 1 and substr($GLOBALS["insert_info"], -5) != $last5){
+        $GLOBALS["insert_info"] .= ", ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
+    }else{
+        $GLOBALS["insert_info"] .=  " ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
+    }
+    $GLOBALS["insert_count"] += 1;
 
 }
 
@@ -350,11 +378,28 @@ function to_DB($conn){
     }
 
     if($conn->query($insert_info) === TRUE){
-        echo "<br>New record created successfully: insert_info<br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "New record created successfully: insert_info\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "<br>New record created successfully: insert_info<br>";
+        }
 
     }else{
-        echo "<br>something go wrong: insert_info<br><br><br>";
+        if($configs["log_print"] == TRUE){
+            $GLOBALS['log'] .= "something go wrong: insert_info\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo "<br>something go wrong: insert_info<br><br><br>";
+        }
     }
+}
+
+function save_log($text){
+    $filename = date('Y-m-d H-i-s');
+    $GLOBALS['log'] = fopen("logs/$filename.log", "at");
+    fwrite($GLOBALS['log'], $text);
+    fclose($GLOBALS['log']);
 }
 
 ?>

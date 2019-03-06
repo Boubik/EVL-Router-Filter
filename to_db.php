@@ -1,9 +1,10 @@
 <?php
+
 $configs = include('config.php');
 include "functions.php";
 $i = 0;
 $k = 0;
-$string = "";
+$log = "";
 $fileList = glob('files/*.evl');
 $configs = include('config.php');
 $servername = $configs["servername"];
@@ -17,17 +18,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-foreach($fileList as $filename[$i]){
+foreach($fileList as $filename){
     $insert_count = 1;
     $insert_info = "";
-    $handle = fopen($filename[$i], "r");
+    $handle = fopen($filename, "r");
     //Simply print them out onto the screen.
-    echo $filename[$i]. "<br><br>";
-    (int)$router = substr($filename[$i], 6, 4);
-    (int)$rok = substr($filename[$i], 11, 4);
-    (int)$mesic = substr($filename[$i], 15, 2);
-    (int)$den = substr($filename[$i], 17, 2);
-    (int)$id_soubor = substr($filename[$i], 19, 2);
+    if($configs["log_print"] == TRUE){
+        $log .= $filename. "\n\n";
+    }
+    if($configs["dialog_echo"] == TRUE){
+        echo $filename. "<br><br>";
+    }
+    (int)$router = substr($filename, 6, 4);
+    (int)$rok = substr($filename, 11, 4);
+    (int)$mesic = substr($filename, 15, 2);
+    (int)$den = substr($filename, 17, 2);
+    (int)$id_soubor = substr($filename, 19, 2);
     $date = "'".$rok. "-". $mesic. "-". $den."'";
     if (imported($conn, $router, $id_soubor, $date) == FALSE){
         inset_imported($conn, $router, $id_soubor, $date);
@@ -44,12 +50,19 @@ foreach($fileList as $filename[$i]){
             to_DB($conn);
         }
         fclose($handle);
+        $log .= "\n\n";
     } else {
-        echo 'Už je v db';
+        if($configs["log_print"] == TRUE){
+            $log .= "alredy in db\n\n";
+        }
+        if($configs["dialog_echo"] == TRUE){
+            echo 'alredy in db';
+        }
+        $log .= $filename. "\n\n";
     }
 
     if($configs["delete_evl"] == TRUE){
-        unlink($filename[$i]);
+        unlink($filename);
     }
     $i++;
 
@@ -57,6 +70,13 @@ foreach($fileList as $filename[$i]){
 
 }
 $conn->close();
-echo "<br><br>Všechno je hotové super <br><br>( •_•) <br>( •_•)>⌐■-■ <br>(⌐■_■)";
+if($configs["log_print"] == TRUE){
+    $log .= "Všechno je hotové super \n\n( •_•) \n( •_•)>⌐■-■ \n(⌐■_■)\n\n\n\n\n\n";
+}
+if($configs["dialog_echo"] == TRUE){
+    echo "<br><br>Všechno je hotové super <br><br>( •_•) <br>( •_•)>⌐■-■ <br>(⌐■_■)";
+}
+
+save_log($log);
 
 ?>

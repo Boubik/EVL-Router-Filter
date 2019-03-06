@@ -1,5 +1,10 @@
 # **Change log**
 
+## v0.5.1
+
+- add log function can be set in congig.php
+- add config for "dialog_echo" basic info can be set in config.php
+
 ## v0.5
 
 - rewrote db
