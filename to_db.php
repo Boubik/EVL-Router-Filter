@@ -37,6 +37,12 @@ foreach($fileList as $filename[$i]){
             processFileChunk($conn, $chunk, $router, $date, $id_info);
         }
     
+        $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `time_day`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
+        $last5 = substr($last5, -5);
+    
+        if(substr($GLOBALS["insert_info"], -5) != $last5){
+            to_DB($conn);
+        }
         fclose($handle);
     } else {
         echo 'Už je v db';
@@ -46,12 +52,6 @@ foreach($fileList as $filename[$i]){
         unlink($filename[$i]);
     }
     $i++;
-    $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `time_year`, `time_month`, `time_day`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`) VALUES";
-    $last5 = substr($last5, -5);
-
-    if(substr($GLOBALS["insert_info"], -5) != $last5){
-        to_DB($conn);
-    }
 
 
 

@@ -274,17 +274,22 @@ function processLine($conn, string $line, $router, $date, $id_info){
         }
 
         if (!empty($parsedLine)) {
+            $GLOBALS["test"] += 1;
             if($GLOBALS["insert_count"] == 1){
                 $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
                 creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
             }else{
 
                 if(($GLOBALS["insert_count"] % ($configs["insert"] + 1)) == 0){
+                    creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
                     $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
                     $last5 = substr($last5, -5);
 
                     if(substr($GLOBALS["insert_info"], -5) != $last5){
                         to_DB($conn);
+                    }else{
+                        $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
+                        creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
                     }
                     $GLOBALS["insert_count"] = 1;
                 }else{
