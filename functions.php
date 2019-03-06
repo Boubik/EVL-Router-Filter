@@ -3,6 +3,7 @@
 function imported($conn, $router, $id_soubor, $date){
 
     ini_set('max_execution_time', 0);
+    $date = substr($date, 1, 10);
 
     $sql = "SELECT * FROM imported";
     $result = $conn->query($sql);
@@ -274,7 +275,6 @@ function processLine($conn, string $line, $router, $date, $id_info){
         }
 
         if (!empty($parsedLine)) {
-            $GLOBALS["test"] += 1;
             if($GLOBALS["insert_count"] == 1){
                 $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
                 creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
