@@ -1,5 +1,9 @@
 # **Change log**
 
+## v0.5.2
+
+- log will be created only if something fail
+
 ## v0.5.1
 
 - add log function can be set in congig.php

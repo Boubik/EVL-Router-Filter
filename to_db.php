@@ -4,7 +4,6 @@ $configs = include('config.php');
 include "functions.php";
 $i = 0;
 $k = 0;
-$log = "";
 $fileList = glob('files/*.evl');
 $configs = include('config.php');
 $servername = $configs["servername"];
@@ -21,6 +20,8 @@ if ($conn->connect_error) {
 foreach($fileList as $filename){
     $insert_count = 1;
     $insert_info = "";
+    $log = "";
+    $save = FALSE;
     $handle = fopen($filename, "r");
     //Simply print them out onto the screen.
     if($configs["log_print"] == TRUE){
@@ -68,15 +69,11 @@ foreach($fileList as $filename){
 
 
 
+    save_log($filename ,$log, $save);
 }
 $conn->close();
-if($configs["log_print"] == TRUE){
-    $log .= "Všechno je hotové super \n\n( •_•) \n( •_•)>⌐■-■ \n(⌐■_■)\n\n\n\n\n\n";
-}
 if($configs["dialog_echo"] == TRUE){
     echo "<br><br>Všechno je hotové super <br><br>( •_•) <br>( •_•)>⌐■-■ <br>(⌐■_■)";
 }
-
-save_log($log);
 
 ?>

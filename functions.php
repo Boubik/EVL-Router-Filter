@@ -38,10 +38,12 @@ function inset_imported($conn, $router, $id_soubor, $date){
         }
     }else{
         if($configs["log_print"] == TRUE){
-            $GLOBALS['log'] .= "something go wrong: insert_imported: insert_time\n\n";
+            $GLOBALS['log'] .= "Something go wrong: insert_imported\n\n";
+            $GLOBALS['log'] .= "$insert_imported\n\n";
+            $GLOBALS['save'] = TRUE;
         }
         if($configs["dialog_echo"] == TRUE){
-            echo "<br>something go wrong: insert_imported<br><br><br>";
+            echo "<br>Something go wrong: insert_imported<br><br><br>";
         }
     }
 }
@@ -65,10 +67,12 @@ function insert_time($conn, $date){
         }
     }else{
         if($configs["log_print"] == TRUE){
-            $GLOBALS['log'] .= "something go wrong: insert_time\n\n";
+            $GLOBALS['log'] .= "Something go wrong: insert_time\n\n";
+            $GLOBALS['log'] .= "$insert_time\n\n";
+            $GLOBALS['save'] = TRUE;
         }
         if($configs["dialog_echo"] == TRUE){
-            echo "<br>something go wrong: insert_time<br><br><br>";
+            echo "<br>Something go wrong: insert_time<br><br><br>";
         }
     }
 }
@@ -213,10 +217,12 @@ function create_db(){
                 if($conn->query($sql[$i]) === TRUE){
                 }else{
                     if($configs["log_print"] == TRUE){
-                        $GLOBALS['log'] .= "something goes wrong\n\n";
+                        $GLOBALS['log'] .= "Something goes wrong: create db\n\n";
+                        $GLOBALS['log'] .= "$sql[$i]\n\n";
+                        $GLOBALS['save'] = TRUE;
                     }
                     if($configs["dialog_echo"] == TRUE){
-                        echo "something goes wrong/<br>";
+                        echo "Something goes wrong/<br>";
                     }
                 }
                 $i++;
@@ -225,10 +231,10 @@ function create_db(){
 
     }else{
         if($configs["log_print"] == TRUE){
-            $GLOBALS['log'] .= "db alredy exit\n\n";
+            $GLOBALS['log'] .= "DB alredy exit\n\n";
         }
         if($configs["dialog_echo"] == TRUE){
-            echo "db alredy exit<br>";
+            echo "DB alredy exit<br>";
         }
     }
 
@@ -387,19 +393,23 @@ function to_DB($conn){
 
     }else{
         if($configs["log_print"] == TRUE){
-            $GLOBALS['log'] .= "something go wrong: insert_info\n\n";
+            $GLOBALS['log'] .= "Something go wrong: insert_info\n\n";
+            $GLOBALS['log'] .= "$insert_info\n\n";
+            $GLOBALS['save'] = TRUE;
         }
         if($configs["dialog_echo"] == TRUE){
-            echo "<br>something go wrong: insert_info<br><br><br>";
+            echo "<br>Something go wrong: insert_info<br><br><br>";
         }
     }
 }
 
-function save_log($text){
-    $filename = date('Y-m-d H-i-s');
-    $GLOBALS['log'] = fopen("logs/$filename.log", "at");
-    fwrite($GLOBALS['log'], $text);
-    fclose($GLOBALS['log']);
+function save_log($filename, $text, $save){
+    if($save == FALSE){
+        $filename = substr($filename, 6, 15);
+        $GLOBALS['log'] = fopen("logs/$filename.log", "at");
+        fwrite($GLOBALS['log'], $text);
+        fclose($GLOBALS['log']);
+    }
 }
 
 ?>

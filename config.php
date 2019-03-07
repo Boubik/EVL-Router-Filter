@@ -8,7 +8,7 @@ return array(
     'dialog_echo' => FALSE,                   // if TRUE it will echo basic info
     'debug_echo' => FALSE,                   // will echo more info in to_db.php
     'log_print' => TRUE,                    // if TRUE it will write to /log
-    'delete_evl' => TRUE,                   // if TRUE it will delete .evl after import
+    'delete_evl' => FALSE,                   // if TRUE it will delete .evl after import
 
     'insert' => 3600,                        //rows per one insert
 
