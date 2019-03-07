@@ -39,3 +39,16 @@ supported format for .evl file is "2179_2018123122.evl"
 #### V0.1
 
 - test.evl (42 MB) --> test.txt (30,8 MB, 116 615 lines) --> to db (26,1 MB) --> save ~37,8% (~22s + ~2m 45s)
+
+## **Protentional problems**
+
+#### Import to DB (button)
+if import button doesn’t work for you it may be because you don’t have installed php. Try type to your terminal 
+```
+php -version
+```
+if it says some error you should try this (Debian)
+```
+sudo apt install php
+```
+if it still doesn’t work try to use "to_db.php"
