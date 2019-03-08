@@ -142,13 +142,13 @@
 
                 //db where
                 echo    '<select name="where' . $i . '">
-            <option value="">none</option>
+            <option value="">None</option>
             <option value="info.router" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.router") {
                     echo "selected";
                 }
 
-                echo    '>router</option>
+                echo    '>Router</option>
             <option value="info.datetime" ';
 
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.datetime") {
@@ -197,31 +197,31 @@
                     echo "selected";
                 }
 
-                echo    '>Proto</option>
+                echo    '>IP Src</option>
             <option value="info.destip" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.destip") {
                     echo "selected";
                 }
 
-                echo    '>IP Src</option>
+                echo    '>IP Dst</option>
             <option value="info.srcport" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.srcport") {
                     echo "selected";
                 }
 
-                echo    '>IP Dst</option>
+                echo    '>Port Src</option>
             <option value="info.destport" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.destport") {
                     echo "selected";
                 }
 
-                echo    '>Port Src</option>
+                echo    '>Port Dst</option>
             <option value="info.event" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.event") {
                     echo "selected";
                 }
 
-                echo    '>Port Dst</option>
+                echo    '>Event</option>
             <option value="info.action" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.action") {
                     echo "selected";
