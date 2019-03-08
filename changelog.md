@@ -1,5 +1,9 @@
 # **Change log**
 
+## v0.5.3
+
+- fix bub with "where" doesn’t work every time
+
 ## v0.5.2
 
 - log will be created only if something fail

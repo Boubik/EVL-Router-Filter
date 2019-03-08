@@ -107,6 +107,7 @@ function tabulka($where, $order, $limit, $checkbox)
         echo "<br>" . $select_table;
     }
 
+    echo $select_table;
     $select_table = $conn->query($select_table);
     if ($select_table->num_rows > 0) {
         // output data of each row

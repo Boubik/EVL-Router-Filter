@@ -410,20 +410,22 @@
                 echo "<br>\n";
                 $i = 0;
                 while ($i != where) {
-                    if (isset($_GET['where' . $i]) and $_GET['where' . $i] != "" and $_GET['textwhere' . $i] != "") {
+                    if (isset($_GET['where' . $i]) and isset($_GET['textwhere' . $i]) and $_GET['where' . $i] != "" and $_GET['textwhere' . $i] != "") {
                         if ($wherenable == true) {
                             $where = "WHERE ";
                             $wherenable = false;
                         }
 
-                        if (!(isset($configs[$_GET['textwhere' . $i]])) and $_GET['textwhere' . $i] != array_search($_GET['textwhere' . $i], $configs, true)) {
+                        if (!(isset($configs[$_GET['textwhere' . $i]])) and $_GET['textwhere' . $i] != array_search($_GET['textwhere' . $i], $configs, true) and isset($configs[$_GET['textwhere' . $i]]) or isset($configs[array_search($_GET['textwhere' . $i], $configs, true)])) {
                             $_GET['textwhere' . $i] = array_search($_GET['textwhere' . $i], $configs, true);
                         }
 
                         $where = $where . $_GET['where' . $i] . ' ' . $_GET['sign' . $i] . ' "' . $_GET['textwhere' . $i] . '" ';
                         if ($i == 0 and $_GET['where' . (1)] != "" and $_GET['textwhere' . (1)] != "") {
-                            $where = $where . ' ' . $_GET['andor'] . ' ';
+                            $where .= ' ' . $_GET['andor'] . ' ';
                         }
+                        echo $where;
+                        echo $_GET['textwhere0'];
                     }
                     $i++;
                 }
