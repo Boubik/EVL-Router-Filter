@@ -47,7 +47,7 @@ if import button doesn’t work for you it may be because you don’t have insta
 ```
 php -version
 ```
-if it says some error you should try this (Debian)
+if it says some errors you should try this (Debian)
 ```
 sudo apt install php
 ```
