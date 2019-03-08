@@ -40,7 +40,6 @@
                 }
             } else {
                 create_db();
-                header("Refresh:0");
             }
         }
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -61,7 +60,10 @@
                 echo '<form method="POST" action="">' . "\n" . '<input type="submit" name="imported"  value="Imported in DB"> </form>';
 
                 if (isset($_POST["import_to_db"])) {
-                    exec("PHP to_db.php");
+                    exec("PHP to_db.php", $output, $return);
+                    if ($return) {
+                        header('Location: /to_db.php');
+                    }
                 }
 
                 ?>

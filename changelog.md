@@ -1,5 +1,9 @@
 # **Change log**
 
+## v0.5.4
+
+- better executing import to DB
+
 ## v0.5.3
 
 - fix bug with "where" doesn’t work every time

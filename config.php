@@ -8,9 +8,10 @@ return array(
     'dialog_echo' => false,                   // if TRUE it will echo basic info
     'debug_echo' => false,                   // will echo more info in to_db.php
     'log_print' => true,                    // if TRUE it will write to /log
+    'redirect' => true,                   // if TRUE it will automaticly redirect you from to_db.php to index.php
     'delete_evl' => true,                   // if TRUE it will delete .evl after import
 
-    'insert' => 3600,                        //rows per one insert
+    'insert' => 3500,                        //rows per one insert
 
     'router' => true,                       // if TRUE router id will be changet to what you want
     '2179' => "Mariánská",                   // id of router to print name

@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html" ; charset="UTF-8">
+    <link href="styles/index.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="images/logo.ico">
+    <title>EVL Router Filter</title>
+</head>
+<body onload="window.open('', '_self', '');">
 <?php
 
 $configs = include('config.php');
@@ -75,4 +85,7 @@ $conn->close();
 if ($configs["dialog_echo"] == true) {
     echo "<br><br>Všechno je hotové super <br><br>( •_•) <br>( •_•)>⌐■-■ <br>(⌐■_■)";
 }
- 
+
+if($configs["redirect"] == TRUE){
+    header('Location: /');
+}
