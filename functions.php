@@ -113,7 +113,7 @@ function tabulka($where, $order, $limit, $checkbox)
         echo "<div>";
         echo "<table>";
         echo "\n";
-        echo "<tr><th>Router</th><th>Date</th><th>Category/ID</th><th>Rule</th><th>Proto</th><th>Src/Dst IF</th><th>Src/Dst IP</th><th>Src/dst Port</th><th>Event/Action</th></tr>";
+        echo "<tr><th>Router</th><th>Date</th><th>Category/ID</th><th>Rule</th><th>Proto</th><th>Src/Dst IF</th><th>Src/Dst IP</th><th>Src/Dst Port</th><th>Event/Action</th></tr>";
         echo "\n";
 
         $i = 0;
