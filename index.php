@@ -424,8 +424,6 @@
                         if ($i == 0 and $_GET['where' . (1)] != "" and $_GET['textwhere' . (1)] != "") {
                             $where .= ' ' . $_GET['andor'] . ' ';
                         }
-                        echo $where;
-                        echo $_GET['textwhere0'];
                     }
                     $i++;
                 }
