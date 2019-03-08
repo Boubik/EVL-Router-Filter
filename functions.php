@@ -409,7 +409,7 @@ function to_DB($conn)
 
 function save_log($filename, $text, $save)
 {
-    if ($save == false) {
+    if ($save == TRUE) {
         $filename = substr($filename, 6, 15);
         $GLOBALS['log'] = fopen("logs/$filename.log", "at");
         fwrite($GLOBALS['log'], $text);
