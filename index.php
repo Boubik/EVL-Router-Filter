@@ -452,7 +452,7 @@
             <p>Jan Chlouba, Jakub Hájek</p>
         </div>
         <div class="footer_right">
-            <p>v0.5.3&nbsp;&nbsp;&nbsp;2019</p>
+            <p>v0.5.4&nbsp;&nbsp;&nbsp;2019</p>
         </div>
     </footer>
 
