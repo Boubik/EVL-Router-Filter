@@ -87,7 +87,7 @@
                     $az[$i] = "ASC";
                 }
 
-                if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] != "") {
+                if (isset($_GET['filter' . $i]) and isset($az[$i]) and $_GET['filter' . $i] != "") {
                     if ($orderenabler == true) {
                         $order[$i] = "ORDER BY ";
                         $orderenabler = false;
