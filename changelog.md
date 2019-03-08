@@ -2,15 +2,15 @@
 
 ## v0.5.3
 
-- fix bub with "where" doesn’t work every time
+- fix bug with "where" doesn’t work every time
 
 ## v0.5.2
 
-- log will be created only if something fail
+- log will be created only if something failed
 
 ## v0.5.1
 
-- add log function can be set in congig.php
+- add log function can be set in config.php
 - add config for "dialog_echo" basic info can be set in config.php
 
 ## v0.5
@@ -31,13 +31,13 @@
 
 ## v0.3.1
 
-- add filtering for router name
+- added filtering for router name
 
 ## v0.3
 
 - rewrote db
 - better readability
-- save more space
+- saves more space
 - faster import
 - new item in table "Router"
 - config to change Router id to normal name (filtering not working for name just for id)
@@ -46,7 +46,7 @@
 
 - rewrote whole backend
 - better readability
-- save more space
+- saves more space
 - faster import
 
 ## v0.1
