@@ -30,6 +30,8 @@
         const test = 0;
         include "functions.php";
         $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // check if db exist
         if ($conn->connect_error) {
             $conn = new mysqli($servername, $username, $password);
             if ($conn->connect_error) {
@@ -39,6 +41,7 @@
                     die("Connection to db failed: ");
                 }
             } else {
+                //will create db
                 create_db();
             }
         }
@@ -59,6 +62,7 @@
                 <?php
                 echo '<form method="POST" action="">' . "\n" . '<input type="submit" name="imported"  value="Imported in DB"> </form>';
 
+                //will take file from folder "files" and import it to db
                 if (isset($_POST["import_to_db"])) {
                     exec("PHP to_db.php", $output, $return);
                     if ($return) {
@@ -72,6 +76,7 @@
         <div class="filters">
             <?php
 
+            //if clicket to imported will show imported files from DB
             if ($imported_select->num_rows > 0 and isset($_POST["imported"])) {
                 echo "<br><br>";
                 while ($row = $imported_select->fetch_assoc()) {
@@ -81,6 +86,7 @@
                 echo "<br>";
             }
 
+            //proces "ORDER BY"
             $i = 0;
             while ($i != checkbox) {
                 if (isset($_GET['az' . $i])) {
@@ -106,164 +112,164 @@
                 $i++;
             }
 
+            //will take input for limit
             if (isset($_GET['limit'])) {
                 $limit = " LIMIT " . $_GET['limit'];
             } else {
                 $limit = " LIMIT 25";
             }
-            //filter_input()
 
             echo "<br><br>";
 
 
             echo    '<form action="" method="GET">
-        <label>Where</label><br>';
+                    <label>Where</label><br>';
             $i = 0;
             while ($i != where) {
 
-                //and or uprostřed
+                //input and/or in where
 
                 if ($i == 1) {
                     echo    '<select name="andor">
-        <option value="and"';
+                            <option value="and"';
                     if (isset($_GET['andor']) and $_GET['andor'] == 'and') {
                         echo "selected";
                     }
 
                     echo    '>and</option>
-                <option value="or"';
+                            <option value="or"';
                     if (isset($_GET['andor']) and $_GET['andor'] == 'or') {
                         echo "selected";
                     }
 
                     echo    '>or</option>
-                </select>' . "\n";
+                            </select>' . "\n";
                 }
 
 
 
-                //db where
+                //input for "WHERE"
                 echo    '<select name="where' . $i . '">
-            <option value="">None</option>
-            <option value="info.router" ';
+                        <option value="">None</option>
+                        <option value="info.router" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.router") {
                     echo "selected";
                 }
 
                 echo    '>Router</option>
-            <option value="info.datetime" ';
+                        <option value="info.datetime" ';
 
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.datetime") {
                     echo "selected";
                 }
 
                 echo    '>Date</option>
-            <option value="info.FW" ';
+                        <option value="info.FW" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.FW") {
                     echo "selected";
                 }
 
                 echo    '>Category</option>
-            <option value="info.id" ';
+                        <option value="info.id" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.id") {
                     echo "selected";
                 }
 
                 echo    '>ID</option>
-            <option value="info.rule" ';
+                        <option value="info.rule" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.rule") {
                     echo "selected";
                 }
 
                 echo    '>Rule</option>
-            <option value="info.ipproto" ';
+                        <option value="info.ipproto" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.ipproto") {
                     echo "selected";
                 }
 
                 echo    '>Proto</option>
-            <option value="info.recvif" ';
+                        <option value="info.recvif" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.recvif") {
                     echo "selected";
                 }
 
                 echo    '>IF Src</option>
-            <option value="info.iface" ';
+                        <option value="info.iface" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.iface") {
                     echo "selected";
                 }
 
                 echo    '>IF Dst</option>
-            <option value="info.srcip" ';
+                        <option value="info.srcip" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.srcip") {
                     echo "selected";
                 }
 
                 echo    '>IP Src</option>
-            <option value="info.destip" ';
+                        <option value="info.destip" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.destip") {
                     echo "selected";
                 }
 
                 echo    '>IP Dst</option>
-            <option value="info.srcport" ';
+                        <option value="info.srcport" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.srcport") {
                     echo "selected";
                 }
 
                 echo    '>Port Src</option>
-            <option value="info.destport" ';
+                        <option value="info.destport" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.destport") {
                     echo "selected";
                 }
 
                 echo    '>Port Dst</option>
-            <option value="info.event" ';
+                        <option value="info.event" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.event") {
                     echo "selected";
                 }
 
                 echo    '>Event</option>
-            <option value="info.action" ';
+                        <option value="info.action" ';
                 if (isset($_GET['where' . $i]) and $_GET['where' . $i] == "info.action") {
                     echo "selected";
                 }
 
                 echo    '>Action</option>
-            </select>' . "\n";
+                        </select>' . "\n";
 
 
                 //checkbox smaler of biger
                 echo    '<select name="sign' . $i, '">
-            <option value="="';
+                        <option value="="';
                 if (isset($_GET['sign' . $i]) and $_GET['sign' . $i] == "=") {
                     echo "selected";
                 }
 
                 echo    '>=</option>
-            <option value=">"';
+                        <option value=">"';
                 if (isset($_GET['sign' . $i]) and $_GET['sign' . $i] == ">") {
                     echo "selected";
                 }
 
                 echo    '>></option>
-            <option value="<"';
+                        <option value="<"';
                 if (isset($_GET['sign' . $i]) and $_GET['sign' . $i] == "<") {
                     echo "selected";
                 }
 
                 echo    '><</option>
-            <option value="!="';
+                        <option value="!="';
                 if (isset($_GET['sign' . $i]) and $_GET['sign' . $i] == "!=") {
                     echo "selected";
                 }
 
                 echo    '>!=</option>
-            </select>' . "\n";
+                        </select>' . "\n";
 
 
 
-                //podmka
+                //"where"
                 echo    '<input type="text" name="textwhere' . $i . '" value="';
                 if (isset($_GET['textwhere' . $i]) and $_GET['textwhere' . $i] != "") {
                     echo $_GET['textwhere' . $i];
@@ -279,11 +285,11 @@
 
 
             echo    '<br><label>Order by</label><br>';
-            //checkbox sort by date...
+            //input for sort
             $i = 0;
             while ($i != checkbox) {
                 echo    '<select name="filter' . $i . '">
-            <option value="">none</option>';
+                        <option value="">none</option>';
                 echo    '<option value="info.router" ';
 
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.router") {
@@ -291,86 +297,86 @@
                 }
 
                 echo    '>Router</option>
-            <option value="info.datetime" ';
+                        <option value="info.datetime" ';
 
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.datetime") {
                     echo "selected";
                 }
 
                 echo    '>Date</option>
-            <option value="info.FW" ';
+                        <option value="info.FW" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.FW") {
                     echo "selected";
                 }
 
                 echo    '>Category</option>
-            <option value="info.id" ';
+                        <option value="info.id" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.id") {
                     echo "selected";
                 }
 
                 echo    '>ID</option>
-            <option value="info.rule" ';
+                        <option value="info.rule" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.rule") {
                     echo "selected";
                 }
 
                 echo    '>Rule</option>
-            <option value="info.ipproto" ';
+                        <option value="info.ipproto" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.ipproto") {
                     echo "selected";
                 }
 
                 echo    '>Proto</option>
-            <option value="info.recvif" ';
+                        <option value="info.recvif" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.recvif") {
                     echo "selected";
                 }
 
                 echo    '>IF Src</option>
-            <option value="info.iface" ';
+                        <option value="info.iface" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.iface") {
                     echo "selected";
                 }
 
                 echo    '>IF Dst</option>
-            <option value="info.srcip" ';
+                        <option value="info.srcip" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.srcip") {
                     echo "selected";
                 }
 
                 echo    '>Proto</option>
-            <option value="info.destip" ';
+                        <option value="info.destip" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.destip") {
                     echo "selected";
                 }
 
                 echo    '>IP Src</option>
-            <option value="info.srcport" ';
+                        <option value="info.srcport" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.srcport") {
                     echo "selected";
                 }
 
                 echo    '>IP Dst</option>
-            <option value="info.destport" ';
+                        <option value="info.destport" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.destport") {
                     echo "selected";
                 }
 
                 echo    '>Port Src</option>
-            <option value="info.event" ';
+                        <option value="info.event" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.event") {
                     echo "selected";
                 }
 
                 echo    '>Port Dst</option>
-            <option value="info.action" ';
+                        <option value="info.action" ';
                 if (isset($_GET['filter' . $i]) and $_GET['filter' . $i] == "info.action") {
                     echo "selected";
                 }
 
                 echo    '>Action</option>
-            </select>';
+                        </select>';
 
 
 
@@ -378,32 +384,32 @@
 
                 //checkbox sort by a-z...
                 echo    '<select name="az' . $i, '">
-            <option value="ASC"';
+                        <option value="ASC"';
                 if (isset($_GET['az' . $i]) and $_GET['az' . $i] == "ASC") {
                     echo "selected";
                 }
 
                 echo    '>ASC</option>
-            <option value="DESC"';
+                        <option value="DESC"';
                 if (isset($_GET['az' . $i]) and $_GET['az' . $i] == "DESC") {
                     echo "selected";
                 }
 
                 echo    '>DESC</option>
-            </select><br>';
+                        </select><br>';
                 $i++;
             }
             ?>
             <div class="submit">
                 <?php
- //limit a submit button
+                //limit and submit button
                 echo    '<br><br>
-        <label>Limit</label><br>
-        <input type="text" name="limit" value="' . substr($limit, 7) . '" min="1">
-        <br><br>';
+                        <label>Limit</label><br>
+                        <input type="text" name="limit" value="' . substr($limit, 7) . '" min="1">
+                        <br><br>';
 
                 echo    '<input type="submit" name="submit" value="Submit">
-        </form>';
+                        </form>';
 
 
                 echo "<br><br>";
@@ -411,6 +417,8 @@
 
                 echo "<br>\n";
                 $i = 0;
+
+                //proces "where"
                 while ($i != where) {
                     if (isset($_GET['where' . $i]) and isset($_GET['textwhere' . $i]) and $_GET['where' . $i] != "" and $_GET['textwhere' . $i] != "") {
                         if ($wherenable == true) {
@@ -437,6 +445,7 @@
 
             echo "<br><br>";
 
+            //will create table
             tabulka($where, $order, $limit, checkbox);
 
 
@@ -452,7 +461,7 @@
             <p>Jan Chlouba, Jakub Hájek</p>
         </div>
         <div class="footer_right">
-            <p>v0.5.4&nbsp;&nbsp;&nbsp;2019</p>
+            <p>v0.5.5&nbsp;&nbsp;&nbsp;2019</p>
         </div>
     </footer>
 

@@ -1,5 +1,10 @@
 # **Change log**
 
+## v0.5.5
+
+- add lot of comments for better understanding
+- better looking code
+
 ## v0.5.4
 
 - better executing import to DB

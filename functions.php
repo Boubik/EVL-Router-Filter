@@ -6,6 +6,7 @@ function imported($conn, $router, $id_soubor, $date)
     ini_set('max_execution_time', 0);
     $date = substr($date, 1, 10);
 
+    //check for imported files in db and return if current processing file is there
     $sql = "SELECT * FROM imported";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -30,6 +31,7 @@ function inset_imported($conn, $router, $id_soubor, $date)
         echo $insert_imported . "<br><br>";
     }
 
+    //create insert for table imported and proces it
     $insert_imported = "INSERT INTO `imported`(`router`, `date`, `id`) VALUES ($router, $date, $id_soubor)";
     if ($conn->query($insert_imported) === true) {
         if ($configs["log_print"] == true) {
@@ -60,6 +62,7 @@ function insert_time($conn, $date)
         echo $insert_imported . "<br><br>";
     }
 
+    //create insert for table time and proces it
     $insert_time = "INSERT INTO `time`(`date`) VALUES ($date)";
     if ($conn->query($insert_time) === true) {
         if ($configs["log_print"] == true) {
@@ -95,18 +98,21 @@ function tabulka($where, $order, $limit, $checkbox)
         die("Connection failed: " . $conn->connect_error);
     }
 
+    //will save data from array order to one string in order2
     $i = 0;
     while ($i != $checkbox and isset($_GET['filter' . $i]) and $_GET['filter' . $i] != "") {
         $order2 = $order2 . ' ' . $order[$i];
         $i++;
     }
 
+    //create select for table
     $select_table = "SELECT info.router, info.datetime, info.FW, info.id, info.rule, info.ipproto, info.recvif, info.iface, info.srcip, info.destip, info.srcport, info.destport, info.event, info.action FROM info $where $order2 $limit";
 
     if ($configs['debug_echo'] == true) {
         echo "<br>" . $select_table;
     }
 
+    //proces slect in db
     $select_table = $conn->query($select_table);
     if ($select_table->num_rows > 0) {
         // output data of each row
@@ -116,6 +122,7 @@ function tabulka($where, $order, $limit, $checkbox)
         echo "<tr><th>Router</th><th>Date</th><th>Category/ID</th><th>Rule</th><th>Proto</th><th>Src/Dst IF</th><th>Src/Dst IP</th><th>Src/Dst Port</th><th>Event/Action</th></tr>";
         echo "\n";
 
+        // output data of each row
         $i = 0;
         while ($row = $select_table->fetch_assoc()) {
             if ($configs["router"] == true and isset($configs[$row["router"]])) {
@@ -212,6 +219,7 @@ function create_db()
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
+    //will create db
     if ($conn->connect_error) {
         $conn = new mysqli($servername, $username, $password);
 
@@ -244,63 +252,64 @@ function create_db()
     $conn->close();
 }
 
-function processFileChunk($conn, $chunk, $router, $date, $id_info)
+function processFileChunk($conn, $chunk, $router, $date)
 {
 
     ini_set('max_execution_time', 0);
-    // Rozseká na nový řádky podle pole času
+    //will create lines by date
     $chunk = preg_replace(
         '/\[\d{4}(?:-\d{2}){2} (?:\d{2}:){2}\d{2}]/',
         "\n$0",
         $chunk
     );
 
-    // Odstraní bordel na koncích řádků
+    //will delete random characters
     $chunk = preg_replace(
         '/\x00[^\x5B]*/',
         "\n",
         $chunk
     );
 
-    // Rozdělí řádky do pole (array)
+    //will separate lines to array
     $lines = explode("\n", $chunk);
 
+    //will proces every line
     foreach ($lines as $line) {
-        processLine($conn, $line, $router, $date, $id_info);
+        processLine($conn, $line, $router, $date);
     }
 }
 
-function processLine($conn, string $line, $router, $date, $id_info)
+function processLine($conn, string $line, $router, $date)
 {
 
     $configs = include('config.php');
     ini_set('max_execution_time', 0);
-    //výsledek řádku
     $parsedLine = [];
 
+    //will save router id to array
     $parsedLine["router"] = $router;
 
-
+    //will get datetime from line
     $datetime = explode('[', $line, 1);
     $datetime = preg_replace("/ /", "-", $datetime[0]);
     $datetime = substr($datetime, 1, 19);
 
+    //will get FW and test if it is there if no it will skip to next line
     $FW = explode('FW: ', $line, 2);
     if (isset($FW[1])) {
         $FW = explode(':', $FW[1], 2);
         $FW = $FW[0];
 
-        //rozdělí řádek na itemy (item je ve formátu: klíč=hodnota)
+        //will separate items to item in format key=value
         $items = explode(' ', $line);
 
-        //pro každý item
+        //for evry item
         foreach ($items as $item) {
-            //rozdělí item na pole ve formátu klíč, hodnota]
+            //will separate item as key and value
             $keyAndValue = explode('=', $item);
 
-            //pokud má item 2 prvky (je ve formátu klíč=hodnota)
+            //if keyandvalue have 2 items it will add value to array with name as key
             if (count($keyAndValue) == 2) {
-                //přidá klíč a hodnotu do pole výsledků
                 if ($keyAndValue[0] == "connipproto" or $keyAndValue[0] == "connrecvif" or $keyAndValue[0] == "conndestif" or $keyAndValue[0] == "connsrcport" or $keyAndValue[0] == "conndestport" or $keyAndValue[0] == "connsrcip" or $keyAndValue[0] == "conndestip" or $keyAndValue[0] == "ipaddr") {
                     if ($keyAndValue[0] == "ipaddr") {
                         $parsedLine["srcip"] = $keyAndValue[1];
@@ -313,14 +322,15 @@ function processLine($conn, string $line, $router, $date, $id_info)
             }
         }
 
+        //will take line and call creater_insert_info
         if (!empty($parsedLine)) {
             if ($GLOBALS["insert_count"] == 1) {
                 $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
-                creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
+                creater_insert_info($parsedLine, $datetime, $FW, $date);
             } else {
 
                 if (($GLOBALS["insert_count"] % ($configs["insert"] + 1)) == 0) {
-                    creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
+                    creater_insert_info($parsedLine, $datetime, $FW, $date);
                     $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
                     $last5 = substr($last5, -5);
 
@@ -328,22 +338,23 @@ function processLine($conn, string $line, $router, $date, $id_info)
                         to_DB($conn);
                     } else {
                         $GLOBALS["insert_info"] = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
-                        creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
+                        creater_insert_info($parsedLine, $datetime, $FW, $date);
                     }
                     $GLOBALS["insert_count"] = 1;
                 } else {
-                    creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date);
+                    creater_insert_info($parsedLine, $datetime, $FW, $date);
                 }
             }
         }
     }
 }
 
-function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date)
+function creater_insert_info($parsedLine, $datetime, $FW, $date)
 {
     $configs = include('config.php');
     ini_set('max_execution_time', 0);
 
+    //will values and save it in array info with name as key
     $info = array("router" => "NULL", "datetime" => "NULL", "FW" => "NULL", "prio" => "NULL", "id" => "NULL", "rev" => "NULL", "event" => "NULL", "rule" => "NULL", "time_year" => "NULL", "time_month" => "NULL");
     $key = array("router", "datetime", "FW", "prio", "id", "rev", "event", "rule", "time_year", "time_month");
     $k = 0;
@@ -356,6 +367,7 @@ function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date)
         $k++;
     }
 
+    //will values and save it in array more_info with name as key
     $more_info = array("ipproto" => "NULL", "ipdatalen" => "NULL", "srcport" => "NULL", "destport" => "NULL", "tcphdrlen" => "NULL", "syn" => "NULL", "ece" => "NULL", "cwr" => "NULL", "ttl" => "NULL", "ttlmin" => "NULL", "udptotlen" => "NULL", "ipaddr" => "NULL", "iface" => "NULL", "origsent" => "NULL", "srcport" => "NULL", "termsent" => "NULL", "conntime" => "NULL", "conn" => "NULL", "action" => "NULL", "badflag" => "NULL", "rule" => "NULL", "recvif" => "NULL", "srcip" => "NULL", "destip" => "NULL", "ipdf" => "NULL", "info_idPrimaryKey" => "NULL", );
     $key = array("ipproto", "ipdatalen", "srcport", "destport", "tcphdrlen", "syn", "ece", "cwr", "ttl", "ttlmin", "udptotlen", "ipaddr", "iface", "origsent", "termsent", "conntime", "conn", "action", "badflag", "rule", "recvif", "srcip", "destip", "ipdf", "info_idPrimaryKey");
     $k = 0;
@@ -369,6 +381,7 @@ function creater_insert_info($conn, $parsedLine, $router, $datetime, $FW, $date)
     $last5 = "INSERT INTO `info`(`router`, `datetime`, `FW`, `prio`, `id`, `rev`, `event`, `rule`, `ipproto`, `ipdatalen`, `srcport`, `destport`, `tcphdrlen`, `syn`, `ece`, `cwr`, `ttl`, `ttlmin`, `udptotlen`, `ipaddr`, `iface`, `origsent`, `termsent`, `conntime`, `conn`, `action`, `badflag`, `recvif`, `srcip`, `destip`, `ipdf`, `time_date`) VALUES";
     $last5 = substr($last5, -5);
 
+    //check if last 5 charakter isnt "VALUE" if no then inserrt it to db and create insert
     if ($GLOBALS["insert_count"] != 1 and substr($GLOBALS["insert_info"], -5) != $last5) {
         $GLOBALS["insert_info"] .= ", ($info[router], '$datetime', '$FW', $info[prio], $info[id], $info[rev], $info[event], $info[rule], $more_info[ipproto], $more_info[ipdatalen], $more_info[srcport], $more_info[destport], $more_info[tcphdrlen], $more_info[syn], $more_info[ece], $more_info[cwr], $more_info[ttl], $more_info[ttlmin], $more_info[udptotlen], $more_info[ipaddr], $more_info[iface], $more_info[origsent], $more_info[termsent], $more_info[conntime], $more_info[conn], $more_info[action], $more_info[badflag], $more_info[recvif], $more_info[srcip], $more_info[destip], $more_info[ipdf], $date)";
     } else {
@@ -388,6 +401,7 @@ function to_DB($conn)
         echo $insert_info . "<br><br>";
     }
 
+    //insert to db
     if ($conn->query($insert_info) === true) {
         if ($configs["log_print"] == true) {
             $GLOBALS['log'] .= "New record created successfully: insert_info\n\n";
@@ -409,6 +423,7 @@ function to_DB($conn)
 
 function save_log($filename, $text, $save)
 {
+    //if something fale it will save
     if ($save == TRUE) {
         $filename = substr($filename, 6, 15);
         $GLOBALS['log'] = fopen("logs/$filename.log", "at");
