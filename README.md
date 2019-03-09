@@ -39,5 +39,3 @@ supported format for .evl file is "2179_2018123122.evl"
 #### V0.1
 
 - test.evl (42 MB) --> test.txt (30,8 MB, 116 615 lines) --> to db (26,1 MB) --> save ~37,8% (~22s + ~2m 45s)
-
-## **Protentional problems**
