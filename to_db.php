@@ -42,11 +42,11 @@
         if ($configs["dialog_echo"] == true) {
             echo $filename . "<br><br>";
         }
-        (int)$router = substr($filename, 6, 4);
-        (int)$rok = substr($filename, 11, 4);
-        (int)$mesic = substr($filename, 15, 2);
-        (int)$den = substr($filename, 17, 2);
-        (int)$id_soubor = substr($filename, 19, 2);
+        (int) $router = substr($filename, 6, 4);
+        (int) $rok = substr($filename, 11, 4);
+        (int) $mesic = substr($filename, 15, 2);
+        (int) $den = substr($filename, 17, 2);
+        (int) $id_soubor = substr($filename, 19, 2);
         $date = "'" . $rok . "-" . $mesic . "-" . $den . "'";
 
         //check if isn’t already imported
@@ -94,6 +94,5 @@
     }
 
     if ($configs["redirect"] == true) {
-        header('Location: /');
+        header('Location: index.php');
     }
-    

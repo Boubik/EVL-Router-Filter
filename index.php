@@ -12,7 +12,7 @@
 
     <div class="wrapper">
 
-        <?php 
+        <?php
         $configs = include('config.php');
         $servername = $configs["servername"];
         $username = $configs["username"];
@@ -66,7 +66,7 @@
                 if (isset($_POST["import_to_db"])) {
                     exec("PHP to_db.php", $output, $return);
                     if ($return) {
-                        header('Location: /to_db.php');
+                        header('Location: to_db.php');
                     }
                 }
 
@@ -465,4 +465,4 @@
         </div>
     </footer>
 
-</body> 
+</body>
